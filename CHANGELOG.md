@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.3.9] - 2026-04-09
+
+### Performance
+- **Book Query Optimization** - Replaced filter count with list comprehension for total/available/on-loan copies
+- **Book List N+1 Fix** - Added `prefetch_related("copies")` to book_list view
+
+### Fixed
+- **Overdue Logic** - Changed `>` to `>=` in `is_overdue` property for correct day-30 detection
+- **Due Soon Query** - Fixed dashboard `due_soon_loans` query to use `__lte` instead of `__lt`
+
+### Added
+- **Hourly Backup Runner** - New Celery task to trigger backups at configured hour
+- **Celery Beat Schedule** - Configured beat for daily overdue checks (8 AM) and hourly backup runner
+
 ## [1.3.8] - 2026-03-26
 
 ### Security

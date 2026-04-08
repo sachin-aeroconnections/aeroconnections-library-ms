@@ -404,7 +404,7 @@ library-ms/
 | 25-29 | Due Soon | Amber |
 | 30+ | Overdue | Red |
 
-## Current App Status (v1.3.8)
+## Current App Status (v1.3.9)
 
 - Stable release for production use with Docker and SQLite persistence.
 - Session security includes auto logout (10-minute idle timeout, 60-minute absolute timeout).
