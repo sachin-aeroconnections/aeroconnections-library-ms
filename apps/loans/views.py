@@ -39,9 +39,9 @@ def loan_list(request):
         )
         .exclude(checkout_date__lte=today - timedelta(days=30))
         .count(),
-        "overdue": Loan.objects.filter(checkout_date__lt=today - timedelta(days=30))
-        .exclude(status="returned")
-        .count(),
+        "overdue": Loan.objects.filter(
+            status="active", checkout_date__lte=today - timedelta(days=30)
+        ).count(),
     }
 
     paginator = Paginator(returned_loans, 10)
@@ -234,13 +234,9 @@ def dashboard(request):
     books_count = Book.objects.count()
     copies_count = BookCopy.objects.count()
     active_loans = Loan.objects.filter(status__in=["active", "overdue"]).count()
-    overdue_loans = (
-        Loan.objects.filter(
-            checkout_date__lt=timezone.now().date() - timedelta(days=30)
-        )
-        .exclude(status="returned")
-        .count()
-    )
+    overdue_loans = Loan.objects.filter(
+        status="active", checkout_date__lte=timezone.now().date() - timedelta(days=30)
+    ).count()
     due_soon_loans = Loan.objects.filter(
         status="active", checkout_date__lte=timezone.now().date() - timedelta(days=25)
     ).exclude(checkout_date__lte=timezone.now().date() - timedelta(days=30))
@@ -250,9 +246,8 @@ def dashboard(request):
     )[:5]
     overdue_list = (
         Loan.objects.filter(
-            checkout_date__lt=timezone.now().date() - timedelta(days=30)
+            status="active", checkout_date__lte=timezone.now().date() - timedelta(days=30)
         )
-        .exclude(status="returned")
         .select_related("book_copy", "book_copy__book")[:10]
     )
 
