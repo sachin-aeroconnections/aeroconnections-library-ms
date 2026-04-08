@@ -15,7 +15,7 @@ from .models import Book, BookCopy
 
 @login_required
 def book_list(request):
-    books = Book.objects.filter()
+    books = Book.objects.prefetch_related("copies").filter()
     search_query = request.GET.get("q")
 
     if search_query:

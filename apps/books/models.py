@@ -39,15 +39,15 @@ class Book(models.Model):
 
     @cached_property
     def total_copies(self):
-        return self.copies.count()
+        return len(self.copies.all())
 
     @cached_property
     def available_copies(self):
-        return self.copies.filter(status=BookCopy.Status.AVAILABLE).count()
+        return len([c for c in self.copies.all() if c.status == BookCopy.Status.AVAILABLE])
 
     @cached_property
     def on_loan_copies(self):
-        return self.copies.filter(status=BookCopy.Status.ON_LOAN).count()
+        return len([c for c in self.copies.all() if c.status == BookCopy.Status.ON_LOAN])
 
 
 class BookCopy(models.Model):

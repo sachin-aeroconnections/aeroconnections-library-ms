@@ -243,7 +243,7 @@ def dashboard(request):
     )
     due_soon_loans = Loan.objects.filter(
         status="active", checkout_date__lte=timezone.now().date() - timedelta(days=25)
-    ).exclude(checkout_date__lt=timezone.now().date() - timedelta(days=30))
+    ).exclude(checkout_date__lte=timezone.now().date() - timedelta(days=30))
 
     recent_loans = Loan.objects.select_related("book_copy", "book_copy__book").order_by(
         "-created_at"

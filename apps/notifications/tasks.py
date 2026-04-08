@@ -76,3 +76,20 @@ def daily_database_backup():
     except Exception as e:
         SystemAlertService.alert_backup_failure(str(e))
         return {"success": False, "error": str(e)}
+
+
+@shared_task
+def hourly_backup_runner():
+    from django.utils import timezone
+    from .models import LibrarySettings
+
+    settings_obj = LibrarySettings.get_active()
+    if not settings_obj or not settings_obj.backup_enabled:
+        return {"skipped": True, "reason": "Backup disabled"}
+
+    current_hour = timezone.now().hour
+    if current_hour == settings_obj.backup_hour:
+        daily_database_backup.delay()
+        return {"success": True, "action": "Backup triggered"}
+    
+    return {"skipped": True, "reason": f"Not backup hour (current: {current_hour}, expected: {settings_obj.backup_hour})"}

@@ -85,7 +85,7 @@ class Loan(models.Model):
     def is_overdue(self):
         if self.status == self.Status.RETURNED:
             return False
-        return self.days_out > self.LOAN_DURATION_DAYS
+        return self.days_out >= self.LOAN_DURATION_DAYS
 
     @property
     def status_display(self):
