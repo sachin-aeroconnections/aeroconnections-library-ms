@@ -91,5 +91,5 @@ def hourly_backup_runner():
     if current_hour == settings_obj.backup_hour:
         daily_database_backup.delay()
         return {"success": True, "action": "Backup triggered"}
-    
+
     return {"skipped": True, "reason": f"Not backup hour (current: {current_hour}, expected: {settings_obj.backup_hour})"}
