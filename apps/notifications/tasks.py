@@ -80,7 +80,6 @@ def daily_database_backup():
 
 @shared_task
 def hourly_backup_runner():
-    from django.utils import timezone
     from .models import LibrarySettings
 
     settings_obj = LibrarySettings.get_active()
