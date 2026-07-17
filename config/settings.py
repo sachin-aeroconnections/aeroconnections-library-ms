@@ -12,10 +12,13 @@ SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-dev-key-change-in-producti
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "yes")
 
 _allowed_hosts = os.getenv("ALLOWED_HOSTS", "")
-if not _allowed_hosts:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"] if DEBUG else []
-else:
-    ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts.split(",") if h.strip()]
+hosts_set = {"localhost", "127.0.0.1", "::1", "testserver"}
+if _allowed_hosts:
+    hosts_set.update(h.strip() for h in _allowed_hosts.split(",") if h.strip())
+
+ALLOWED_HOSTS = list(hosts_set)
+
+SECURE_REDIRECT_EXEMPT = [r"^health/$"]
 
 
 def _get_csrf_trusted_origins():

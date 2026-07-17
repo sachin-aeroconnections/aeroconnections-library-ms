@@ -1,12 +1,18 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.db import connection
 from django.http import JsonResponse
 from django.urls import include, path
 
 
 def health_check(request):
-    return JsonResponse({"status": "ok"})
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+        return JsonResponse({"status": "healthy", "database": "connected"}, status=200)
+    except Exception as e:
+        return JsonResponse({"status": "unhealthy", "database": str(e)}, status=503)
 
 
 urlpatterns = [
