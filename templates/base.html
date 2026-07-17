@@ -31,20 +31,6 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body class="min-h-screen">
-    <!-- Animated Background -->
-    <div class="animated-bg">
-        <div class="floating-shapes">
-            <svg class="shape shape-1" viewBox="0 0 24 24" fill="white">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/>
-            </svg>
-            <svg class="shape shape-2" viewBox="0 0 24 24" fill="white">
-                <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-            </svg>
-        </div>
-        <div class="particles" id="particles"></div>
-        <div class="wave"></div>
-    </div>
-    
     <!-- Top Navigation -->
     <header class="top-nav">
         <div class="max-w-7xl mx-auto px-6">
@@ -210,24 +196,6 @@
     </form>
     
     <script>
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 6;
-        
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-            
-            const colors = ['rgba(218, 41, 28, 0.4)', 'rgba(200, 201, 199, 0.4)', 'rgba(91, 103, 112, 0.3)'];
-            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-            particle.style.width = (3 + Math.random() * 4) + 'px';
-            particle.style.height = particle.style.width;
-            
-            particlesContainer.appendChild(particle);
-        }
-        
         function toggleFabMenu() {
             document.getElementById('fabMenu').classList.toggle('open');
             const icon = document.getElementById('fabIcon');
