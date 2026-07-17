@@ -31,7 +31,7 @@
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold text-gray-900">Loaned</h3>
             <span class="px-3 py-1 bg-warning-light text-warning text-sm font-medium rounded-full">
-                {{ active_loans|length }} copies
+                {{ active_paginator.count }} copies
             </span>
         </div>
         
@@ -91,13 +91,24 @@
             <p class="text-dark-grey">No copies currently on loan</p>
         </div>
         {% endif %}
+        {% if active_page_obj.has_other_pages %}
+        <div class="flex justify-center mt-4 gap-2">
+            {% if active_page_obj.has_previous %}
+            <a href="?active_page={{ active_page_obj.previous_page_number }}&{{ pagination_query }}" class="px-3 py-1 bg-white border border-light-grey rounded-lg text-sm text-dark-grey hover:border-primary">← Prev</a>
+            {% endif %}
+            <span class="px-3 py-1 bg-light-grey/30 rounded-lg text-sm text-dark-grey">Page {{ active_page_obj.number }} of {{ active_page_obj.paginator.num_pages }}</span>
+            {% if active_page_obj.has_next %}
+            <a href="?active_page={{ active_page_obj.next_page_number }}&{{ pagination_query }}" class="px-3 py-1 bg-white border border-light-grey rounded-lg text-sm text-dark-grey hover:border-primary">Next →</a>
+            {% endif %}
+        </div>
+        {% endif %}
     </div>
-    
+
     <div>
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold text-gray-900">Returned</h3>
             <span class="px-3 py-1 bg-success-light text-success text-sm font-medium rounded-full">
-                {{ returned_loans|length }} copies
+                {{ paginator.count }} copies
             </span>
         </div>
         
