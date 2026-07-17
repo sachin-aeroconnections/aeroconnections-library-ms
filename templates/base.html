@@ -8,6 +8,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { DEFAULT: '#DA291C', dark: '#B8231A', light: '#FEE2E2' },
+                        'light-grey': '#C8C9C7',
+                        'dark-grey': '#5B6770',
+                        success: { DEFAULT: '#059669', light: '#D1FAE5' },
+                        warning: { DEFAULT: '#D97706', light: '#FEF3C7' },
+                        danger: { DEFAULT: '#DA291C', light: '#FEE2E2' },
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="{% static 'tailwind.min.css' %}">
 
     {% block extra_head %}{% endblock %}
