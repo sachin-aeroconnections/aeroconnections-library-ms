@@ -1,6 +1,4 @@
-from functools import cached_property
-
-from django.db import models
+from django.db import models, transaction
 
 
 class Book(models.Model):
@@ -26,26 +24,27 @@ class Book(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.book_id:
-            last_book = Book.objects.order_by("-book_id").first()
-            if last_book and last_book.book_id:
-                try:
-                    last_num = int(last_book.book_id)
-                    self.book_id = str(last_num + 1).zfill(2)
-                except ValueError:
+            with transaction.atomic():
+                last_book = Book.objects.select_for_update().order_by("-book_id").first()
+                if last_book and last_book.book_id:
+                    try:
+                        last_num = int(last_book.book_id)
+                        self.book_id = str(last_num + 1).zfill(2)
+                    except ValueError:
+                        self.book_id = "01"
+                else:
                     self.book_id = "01"
-            else:
-                self.book_id = "01"
         super().save(*args, **kwargs)
 
-    @cached_property
+    @property
     def total_copies(self):
         return len(self.copies.all())
 
-    @cached_property
+    @property
     def available_copies(self):
         return len([c for c in self.copies.all() if c.status == BookCopy.Status.AVAILABLE])
 
-    @cached_property
+    @property
     def on_loan_copies(self):
         return len([c for c in self.copies.all() if c.status == BookCopy.Status.ON_LOAN])
 
@@ -100,22 +99,23 @@ class BookCopy(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.copy_id:
-            book_prefix = self.book.book_id if self.book else "00"
-            last_copy = BookCopy.objects.filter(
-                copy_id__startswith=f"{book_prefix}-"
-            ).order_by("-copy_id").first()
+            with transaction.atomic():
+                book_prefix = self.book.book_id if self.book else "00"
+                last_copy = BookCopy.objects.select_for_update().filter(
+                    copy_id__startswith=f"{book_prefix}-"
+                ).order_by("-copy_id").first()
 
-            if last_copy and last_copy.copy_id:
-                try:
-                    suffix = int(last_copy.copy_suffix)
-                    self.copy_id = f"{book_prefix}-{suffix + 1}"
-                except ValueError:
+                if last_copy and last_copy.copy_id:
+                    try:
+                        suffix = int(last_copy.copy_suffix)
+                        self.copy_id = f"{book_prefix}-{suffix + 1}"
+                    except ValueError:
+                        self.copy_id = f"{book_prefix}-1"
+                else:
                     self.copy_id = f"{book_prefix}-1"
-            else:
-                self.copy_id = f"{book_prefix}-1"
         super().save(*args, **kwargs)
 
-    @cached_property
+    @property
     def current_loan(self):
         return self.loans.filter(status__in=["active", "overdue"]).first()
 

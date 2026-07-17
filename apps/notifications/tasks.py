@@ -15,6 +15,7 @@ def check_overdue_loans():
     ).exclude(status=Loan.Status.RETURNED)
 
     if overdue_loans.exists():
+        overdue_loans.update(status=Loan.Status.OVERDUE)
         return NotificationService.notify_overdue(list(overdue_loans))
 
     return {"chat": False, "count": 0}
