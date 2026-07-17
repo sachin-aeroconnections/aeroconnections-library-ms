@@ -3,11 +3,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import redirect, render
 
+from apps.utils import is_superadmin
+
 from .models import LibrarySettings
-
-
-def is_superadmin(user):
-    return user.is_superuser
 
 
 @login_required

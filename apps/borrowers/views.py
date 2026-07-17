@@ -1,6 +1,7 @@
 import csv
 import io
 import json
+import logging
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -8,13 +9,12 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.loans.models import ActivityLog, Loan, ReturnNote
+from apps.utils import is_superadmin
 from apps.utils.activity_logger import log_activity
 
 from .models import Borrower
 
-
-def is_superadmin(user):
-    return user.is_superuser
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -304,10 +304,6 @@ def borrower_import(request):
 
 @login_required
 def borrower_import_confirm(request):
-    import logging
-
-    logger = logging.getLogger(__name__)
-
     if request.method == "POST":
         borrowers_data = request.POST.getlist("borrowers_data")
         imported_count = 0

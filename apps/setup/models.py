@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.db import IntegrityError, models
+from django.db import models
 
 User = get_user_model()
 
@@ -20,21 +20,13 @@ class SetupConfig(models.Model):
 
     @classmethod
     def is_configured(cls):
-        return cls.objects.exists() and cls.objects.first().setup_completed
+        return cls.objects.filter(pk=1, setup_completed=True).exists()
 
     @classmethod
     def get_config(cls):
-        return cls.objects.first() or cls.objects.create()
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
 
     @classmethod
     def has_users(cls):
         return User.objects.exists()
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            try:
-                super().save(*args, **kwargs)
-            except IntegrityError:
-                pass
-        else:
-            super().save(*args, **kwargs)

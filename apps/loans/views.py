@@ -8,13 +8,10 @@ from django.utils import timezone
 
 from apps.books.models import Book, BookCopy
 from apps.borrowers.models import Borrower
+from apps.utils import is_superadmin
 from apps.utils.activity_logger import log_activity
 
 from .models import ActivityLog, Loan, ReturnNote
-
-
-def is_superadmin(user):
-    return user.is_superuser
 
 
 @login_required

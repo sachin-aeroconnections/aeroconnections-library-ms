@@ -1,6 +1,7 @@
 import csv
 import io
 import json
+import logging
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -11,6 +12,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from apps.loans.models import ActivityLog, Loan, ReturnNote
 
 from .models import Book, BookCopy
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -47,6 +50,7 @@ def book_list(request):
     )
 
 
+@login_required
 def book_search_api(request):
     query = request.GET.get("q", "")
     if len(query) < 2:
@@ -288,10 +292,6 @@ def book_import(request):
 
 @login_required
 def book_import_confirm(request):
-    import logging
-
-    logger = logging.getLogger(__name__)
-
     if request.method == "POST":
         books_data = request.POST.getlist("books_data")
         imported_count = 0

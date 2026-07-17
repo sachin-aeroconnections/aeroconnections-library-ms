@@ -149,14 +149,6 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES = [
-    "django.contrib.admin.staticfiles",
-    "apps.books.static",
-    "apps.loans.static",
-    "apps.borrowers.static",
-    "apps.notifications.static",
-]
-
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 MEDIA_URL = "/media/"
