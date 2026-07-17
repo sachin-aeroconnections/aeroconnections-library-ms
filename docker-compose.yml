@@ -10,7 +10,9 @@ services:
     environment:
       - DEBUG=False
       - SECRET_KEY=change-this-secret-key-in-production
-      - ALLOWED_HOSTS=*
+      # REQUIRED: set these for your deployment
+      # - ALLOWED_HOSTS=library.yourdomain.com
+      # - CSRF_TRUSTED_ORIGINS=https://library.yourdomain.com
 
 volumes:
   db_data:

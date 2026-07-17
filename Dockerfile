@@ -28,10 +28,10 @@ FROM python:3.12-alpine
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    ALLOWED_HOSTS=*
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
-ENV CSRF_TRUSTED_ORIGINS=http://localhost,http://localhost:8000
+# REQUIRED: set ALLOWED_HOSTS and CSRF_TRUSTED_ORIGINS via environment variables or .env file
+# Example: ALLOWED_HOSTS=library.yourdomain.com
 
 WORKDIR /app
 
