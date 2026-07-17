@@ -3,8 +3,6 @@ import io
 import json
 import logging
 
-logger = logging.getLogger(__name__)
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -14,6 +12,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from apps.loans.models import ActivityLog, Loan, ReturnNote
 
 from .models import Book, BookCopy
+
+logger = logging.getLogger(__name__)
 
 
 @login_required

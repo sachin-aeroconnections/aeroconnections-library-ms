@@ -3,8 +3,6 @@ import io
 import json
 import logging
 
-logger = logging.getLogger(__name__)
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -15,6 +13,8 @@ from apps.utils import is_superadmin
 from apps.utils.activity_logger import log_activity
 
 from .models import Borrower
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
