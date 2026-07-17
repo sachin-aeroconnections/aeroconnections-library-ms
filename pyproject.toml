@@ -1,6 +1,6 @@
 [project]
 name = "library-ms"
-version = "1.3.9"
+version = "1.4.0"
 description = "A free and open-source library management system for AeroConnections"
 authors = [{name = "AeroConnections", email = "it@aeroconnections.com"}]
 readme = "README.md"

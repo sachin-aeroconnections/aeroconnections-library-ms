@@ -4,7 +4,7 @@
 
 **Company:** AeroConnections  
 **Product:** Library Management System  
-**Version:** 1.3.8
+**Version:** 1.4.0
 
 ### Mission Statement
 A clean, professional library management interface for AeroConnections staff to track book inventory, loans, and overdue returns.

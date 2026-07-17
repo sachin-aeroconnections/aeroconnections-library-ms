@@ -8,6 +8,7 @@ This is an internal library management tool designed for private networks. It is
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 1.4.x   | :white_check_mark: |
 | 1.3.x   | :white_check_mark: |
 | < 1.3   | :x:                |
 

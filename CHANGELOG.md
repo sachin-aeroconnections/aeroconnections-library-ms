@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.4.0] - 2026-07-17
+
+### Security
+- **Strict Host Verification** - Removed default `ALLOWED_HOSTS=*` from Dockerfile and Docker Compose; enforced explicit environment variable configuration (`ALLOWED_HOSTS`).
+- **Setup PIN Authentication** - Enforced secure `check_password` verification for setup PIN (removed insecure plain-text fallback).
+- **API Authentication** - Added `@login_required` decorator to `book_search_api` endpoint to prevent unauthenticated access to book data.
+
+### Performance
+- **Build-Time Tailwind CSS** - Replaced 380KB render-blocking Tailwind CDN script with a build-time purged and minified CSS compilation (`tailwind.min.css`), reducing cold page render times by 1–3s.
+- **Background Animation Reduction** - Optimized `base.html` background layer by reducing particle nodes from 20 to 6, removing high-GPU rotating overlays, and supporting `@media (prefers-reduced-motion: reduce)`.
+- **Active Loans Pagination** - Added pagination (`active_page`) to active loans list view and template, eliminating unbounded database fetches.
+- **Dashboard Query Consolidation** - Consolidated dashboard stats queries and cached date calculations per request.
+- **Branding Context Processor Caching** - Cached `branding_context` processor in memory/Redis for 5 minutes with automatic invalidation on `Branding.save()`.
+
+### Fixed & Improved
+- **Concurrent ID Generation** - Wrapped `Book.save()` and `BookCopy.save()` internal ID generation in `transaction.atomic()` with `select_for_update()` to prevent race conditions and duplicate ID collisions.
+- **Stale Copy Count Property** - Converted `total_copies`, `available_copies`, and `on_loan_copies` on `Book` from `@cached_property` to `@property` so copy updates reflect immediately in UI views.
+- **Automated Overdue Status Sync** - `check_overdue_loans` Celery task now updates loan status to `OVERDUE` in the database automatically.
+- **LibrarySettings Wiring** - Integrated `LibrarySettings.loan_duration_days` into checkout due date calculation and enforced `max_books_per_borrower` limit during checkout.
+
+### Maintenance
+- **Cleaned Up Unused Settings** - Removed obsolete `STATICFILES` setting from `config/settings.py`.
+- **Consolidated Helpers** - Centralized `is_superadmin` view decorator helper into `apps.utils`.
+
 ## [1.3.9] - 2026-04-09
 
 ### Performance
