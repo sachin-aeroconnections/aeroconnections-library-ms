@@ -8,6 +8,7 @@ from django.utils import timezone
 
 from apps.books.models import Book, BookCopy
 from apps.borrowers.models import Borrower
+from apps.notifications.models import LibrarySettings
 from apps.utils import is_superadmin
 from apps.utils.activity_logger import log_activity
 
@@ -74,6 +75,9 @@ def loan_list(request):
 @login_required
 def loan_create(request):
     today = timezone.now().date().isoformat()
+    settings_obj = LibrarySettings.get_active()
+    loan_duration = settings_obj.loan_duration_days if settings_obj else Loan.LOAN_DURATION_DAYS
+    max_books = settings_obj.max_books_per_borrower if settings_obj else 5
 
     if request.method == "POST":
         copy_id = request.POST.get("copy")
@@ -92,6 +96,14 @@ def loan_create(request):
             messages.error(request, f"Copy {book_copy.copy_id} is not available.")
             return redirect("loans:loan_create")
 
+        active_loan_count = Loan.objects.filter(
+            borrower_name=borrower.full_name,
+            status__in=[Loan.Status.ACTIVE, Loan.Status.OVERDUE]
+        ).count()
+        if active_loan_count >= max_books:
+            messages.error(request, f"This borrower has reached the maximum of {max_books} active loans.")
+            return redirect("loans:loan_create")
+
         checkout_date = (
             date.fromisoformat(checkout_date_str)
             if checkout_date_str
@@ -101,7 +113,7 @@ def loan_create(request):
         due_date = (
             date.fromisoformat(expected_return_str)
             if expected_return_str
-            else checkout_date + timedelta(days=Loan.LOAN_DURATION_DAYS)
+            else checkout_date + timedelta(days=loan_duration)
         )
 
         Loan.objects.create(
