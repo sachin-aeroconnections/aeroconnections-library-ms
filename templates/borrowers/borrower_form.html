@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}{% if borrower %}Edit{% else %}Add{% endif %} Borrower - AeroConnections Library{% endblock %}
 {% block page_title %}{% if borrower %}Edit{% else %}Add{% endif %} Borrower{% endblock %}
@@ -6,76 +6,76 @@
 
 {% block extra_head %}
 <style>
-    .guardian-fields {
-        display: none;
-    }
-    .guardian-fields.show {
-        display: block;
-    }
+ .guardian-fields {
+ display: none;
+ }
+ .guardian-fields.show {
+ display: block;
+ }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="max-w-xl">
-    <form method="post" class="bg-white rounded-xl border border-light-grey p-6">
-        {% csrf_token %}
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Full Name *</label>
-            <input type="text" name="full_name" value="{{ borrower.full_name|default:'' }}" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary" required>
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Email *</label>
-            <input type="email" name="email" value="{{ borrower.email|default:'' }}" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary" required>
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Phone Number *</label>
-            <input type="text" name="phone" value="{{ borrower.phone|default:'' }}" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary" required>
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Employment Type *</label>
-            <select name="employment_type" id="employment_type" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary bg-white" required onchange="toggleGuardianFields()">
-                <option value="permanent" {% if borrower.employment_type == 'permanent' %}selected{% endif %}>Permanent Employee</option>
-                <option value="intern" {% if borrower.employment_type == 'intern' %}selected{% endif %}>Intern</option>
-                <option value="temporary" {% if borrower.employment_type == 'temporary' %}selected{% endif %}>Temporary Employee</option>
-            </select>
-        </div>
-        
-        <div id="guardian_fields" class="guardian-fields {% if borrower.needs_guardian %}show{% endif %}">
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-dark-grey mb-2">Guardian's Name</label>
-                <input type="text" name="guardian_name" value="{{ borrower.guardian_name|default:'' }}" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
-            </div>
-            
-            <div class="mb-6">
-                <label class="block text-sm font-medium text-dark-grey mb-2">Guardian's Contact</label>
-                <input type="text" name="guardian_contact" value="{{ borrower.guardian_contact|default:'' }}" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary" placeholder="Phone or email">
-            </div>
-        </div>
-        
-        <div class="flex gap-4">
-            <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                {% if borrower %}Save Changes{% else %}Add Borrower{% endif %}
-            </button>
-            <a href="{% url 'borrowers:borrower_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 rounded-lg font-medium transition-colors">
-                Cancel
-            </a>
-        </div>
-    </form>
+ <form method="post" class="card border border-light-grey p-6">
+ {% csrf_token %}
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Full Name *</label>
+ <input type="text" name="full_name" value="{{ borrower.full_name|default:'' }}" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary" required>
+ </div>
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Email *</label>
+ <input type="email" name="email" value="{{ borrower.email|default:'' }}" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary" required>
+ </div>
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Phone Number *</label>
+ <input type="text" name="phone" value="{{ borrower.phone|default:'' }}" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary" required>
+ </div>
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Employment Type *</label>
+ <select name="employment_type" id="employment_type" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary card" required onchange="toggleGuardianFields()">
+ <option value="permanent" {% if borrower.employment_type == 'permanent' %}selected{% endif %}>Permanent Employee</option>
+ <option value="intern" {% if borrower.employment_type == 'intern' %}selected{% endif %}>Intern</option>
+ <option value="temporary" {% if borrower.employment_type == 'temporary' %}selected{% endif %}>Temporary Employee</option>
+ </select>
+ </div>
+ 
+ <div id="guardian_fields" class="guardian-fields {% if borrower.needs_guardian %}show{% endif %}">
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Guardian's Name</label>
+ <input type="text" name="guardian_name" value="{{ borrower.guardian_name|default:'' }}" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary">
+ </div>
+ 
+ <div class="mb-6">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Guardian's Contact</label>
+ <input type="text" name="guardian_contact" value="{{ borrower.guardian_contact|default:'' }}" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary" placeholder="Phone or email">
+ </div>
+ </div>
+ 
+ <div class="d-flex gap-4">
+ <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-6 py-2 font-medium transition-colors">
+ {% if borrower %}Save Changes{% else %}Add Borrower{% endif %}
+ </button>
+ <a href="{% url 'borrowers:borrower_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 font-medium transition-colors">
+ Cancel
+ </a>
+ </div>
+ </form>
 </div>
 
 <script>
 function toggleGuardianFields() {
-    var select = document.getElementById('employment_type');
-    var guardianFields = document.getElementById('guardian_fields');
-    if (select.value === 'intern' || select.value === 'temporary') {
-        guardianFields.classList.add('show');
-    } else {
-        guardianFields.classList.remove('show');
-    }
+ var select = document.getElementById('employment_type');
+ var guardianFields = document.getElementById('guardian_fields');
+ if (select.value === 'intern' || select.value === 'temporary') {
+ guardianFields.classList.add('show');
+ } else {
+ guardianFields.classList.remove('show');
+ }
 }
 </script>
 {% endblock %}

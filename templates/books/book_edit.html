@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Edit Book #{{ book.book_id }} - AeroConnections Library{% endblock %}
 {% block page_title %}Edit Book #{{ book.book_id }}{% endblock %}
@@ -6,44 +6,44 @@
 
 {% block content %}
 <div class="max-w-xl">
-    <form method="post" class="bg-white rounded-xl border border-light-grey p-6">
-        {% csrf_token %}
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Internal ID</label>
-            <input type="text" name="book_id" value="{{ book.book_id }}" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
-            <p class="text-xs text-dark-grey mt-1">You can edit the internal ID if needed</p>
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Book Title *</label>
-            <input type="text" name="title" value="{{ book.title }}" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary" required>
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Author *</label>
-            <input type="text" name="author" value="{{ book.author }}" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary" required>
-        </div>
-        
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-dark-grey mb-2">ISBN</label>
-            <input type="text" name="isbn" value="{{ book.isbn }}" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
-        </div>
-        
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Number of Copies</label>
-            <input type="number" name="copies" value="{{ book.total_copies }}" min="1" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
-            <p class="text-xs text-dark-grey mt-1">How many copies of this book are in the library</p>
-        </div>
-        
-        <div class="flex gap-4">
-            <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                Save Changes
-            </button>
-            <a href="{% url 'books:book_detail' book.pk %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 rounded-lg font-medium transition-colors">
-                Cancel
-            </a>
-        </div>
-    </form>
+ <form method="post" class="card border border-light-grey p-6">
+ {% csrf_token %}
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Internal ID</label>
+ <input type="text" name="book_id" value="{{ book.book_id }}" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary">
+ <p class="text-xs text-dark-grey mt-1">You can edit the internal ID if needed</p>
+ </div>
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Book Title *</label>
+ <input type="text" name="title" value="{{ book.title }}" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary" required>
+ </div>
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Author *</label>
+ <input type="text" name="author" value="{{ book.author }}" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary" required>
+ </div>
+ 
+ <div class="mb-6">
+ <label class="block text-sm font-medium text-dark-grey mb-2">ISBN</label>
+ <input type="text" name="isbn" value="{{ book.isbn }}" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary">
+ </div>
+ 
+ <div class="mb-6">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Number of Copies</label>
+ <input type="number" name="copies" value="{{ book.total_copies }}" min="1" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary">
+ <p class="text-xs text-dark-grey mt-1">How many copies of this book are in the library</p>
+ </div>
+ 
+ <div class="d-flex gap-4">
+ <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-6 py-2 font-medium transition-colors">
+ Save Changes
+ </button>
+ <a href="{% url 'books:book_detail' book.pk %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 font-medium transition-colors">
+ Cancel
+ </a>
+ </div>
+ </form>
 </div>
 {% endblock %}

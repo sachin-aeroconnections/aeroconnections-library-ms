@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Books - AeroConnections Library{% endblock %}
 {% block page_title %}Books{% endblock %}
@@ -6,70 +6,70 @@
 
 {% block content %}
 <!-- Search Bar -->
-<div class="bg-white rounded-xl border border-light-grey p-4 mb-6">
-    <form method="get" class="flex gap-4">
-        <input type="text" name="q" placeholder="Search books by title, author, or ISBN..." value="{{ request.GET.q }}" 
-               class="search-input flex-1">
-        <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg font-medium transition-colors">
-            Search
-        </button>
-        <a href="{% url 'books:book_import' %}" class="bg-success hover:bg-success-dark text-white px-6 py-2 rounded-lg font-medium transition-colors">
-            Import CSV
-        </a>
-    </form>
+<div class="card border border-light-grey p-4 mb-6">
+ <form method="get" class="d-flex gap-4">
+ <input type="text" name="q" placeholder="Search books by title, author, or ISBN..." value="{{ request.GET.q }}" 
+ class="search-input d-flex-1">
+ <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-6 py-2 font-medium transition-colors">
+ Search
+ </button>
+ <a href="{% url 'books:book_import' %}" class="bg-success hover:bg-success-dark text-white px-6 py-2 font-medium transition-colors">
+ Import CSV
+ </a>
+ </form>
 </div>
 
-<div class="bg-white rounded-xl border border-light-grey overflow-hidden">
-    <table class="min-w-full divide-y divide-light-grey">
-        <thead class="bg-light-grey/30">
-            <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">ID</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Book</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Copies</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Available</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-dark-grey uppercase tracking-wider">Actions</th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-light-grey">
-            {% for book in books %}
-            <tr>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="font-mono font-medium text-dark-grey">#{{ book.book_id }}</span>
-                </td>
-                <td class="px-6 py-4">
-                    <div class="font-medium text-gray-900">{{ book.title }}</div>
-                    <div class="text-sm text-dark-grey">{{ book.author }}</div>
-                </td>
-                <td class="px-6 py-4 text-dark-grey">
-                    {{ book.total_copies }}
-                </td>
-                <td class="px-6 py-4">
-                    <span class="px-3 py-1 text-xs font-medium rounded-full 
-                        {% if book.available_copies > 0 %}bg-success-light text-success{% else %}bg-warning-light text-warning{% endif %}">
-                        {{ book.available_copies }}/{{ book.total_copies }}
-                    </span>
-                </td>
-                <td class="px-6 py-4 text-right whitespace-nowrap">
-                    <a href="{% url 'books:book_detail' book.pk %}" class="text-primary hover:text-primary-dark mr-3">View</a>
-                    <a href="{% url 'books:book_edit' book.pk %}" class="text-dark-grey hover:text-gray-900 mr-3">Edit</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5" class="px-6 py-12 text-center text-dark-grey">
-                    <div class="flex flex-col items-center">
-                        <svg class="w-12 h-12 text-light-grey mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                        </svg>
-                        <p>No books found.</p>
-                        <a href="{% url 'books:book_create' %}" class="text-primary hover:text-primary-dark mt-2">Add your first book</a>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="card border border-light-grey">
+ <table class="w-100 divide-light-grey">
+ <thead class="bg-light-grey/30">
+ <tr>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">ID</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Book</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Copies</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Available</th>
+ <th class="px-6 py-3 text-right text-xs font-medium text-dark-grey">Actions</th>
+ </tr>
+ </thead>
+ <tbody class="card divide-light-grey">
+ {% for book in books %}
+ <tr>
+ <td class="px-6 py-4">
+ <span class="font-mono font-medium text-dark-grey">#{{ book.book_id }}</span>
+ </td>
+ <td class="px-6 py-4">
+ <div class="font-medium text-dark-grey">{{ book.title }}</div>
+ <div class="text-sm text-dark-grey">{{ book.author }}</div>
+ </td>
+ <td class="px-6 py-4 text-dark-grey">
+ {{ book.total_copies }}
+ </td>
+ <td class="px-6 py-4">
+ <span class="px-3 py-1 text-xs font-medium rounded-full 
+ {% if book.available_copies > 0 %}bg-success-light text-success{% else %}bg-warning-light text-warning{% endif %}">
+ {{ book.available_copies }}/{{ book.total_copies }}
+ </span>
+ </td>
+ <td class="px-6 py-4 text-right">
+ <a href="{% url 'books:book_detail' book.pk %}" class="text-primary hover:text-primary-dark mr-3">View</a>
+ <a href="{% url 'books:book_edit' book.pk %}" class="text-dark-grey hover:text-dark-grey mr-3">Edit</a>
+ </td>
+ </tr>
+ {% empty %}
+ <tr>
+ <td colspan="5" class="px-6 py-12 text-center text-dark-grey">
+ <div class="d-flex d-flex-column align-items-center">
+ <svg class="w-12 h-12 text-light-grey mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+ </svg>
+ <p>No books found.</p>
+ <a href="{% url 'books:book_create' %}" class="text-primary hover:text-primary-dark mt-2">Add your first book</a>
+ </div>
+ </td>
+ </tr>
+ {% endfor %}
+ </tbody>
+ </table>
 </div>
 
-{% include "includes/pagination.html" %}
+{% include"includes/pagination.html" %}
 {% endblock %}

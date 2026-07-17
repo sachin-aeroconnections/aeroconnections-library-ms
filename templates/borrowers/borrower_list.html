@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Borrowers - AeroConnections Library{% endblock %}
 {% block page_title %}Borrowers{% endblock %}
@@ -6,109 +6,109 @@
 
 {% block content %}
 <!-- Search & Filters -->
-<div class="bg-white rounded-xl border border-light-grey p-4 mb-6">
-    <div class="flex flex-wrap gap-4 items-center justify-between mb-4">
-        <form method="get" class="flex flex-wrap gap-4 items-center" id="searchForm">
-            <input type="hidden" name="status" value="{{ status_filter }}" id="statusFilter">
-            <input type="text" name="q" placeholder="Search borrowers..." value="{{ request.GET.q }}" 
-                   class="search-input w-64">
-            <select name="employment_type" class="filter-select" onchange="this.form.submit()">
-                <option value="">All Types</option>
-                <option value="permanent" {% if request.GET.employment_type == 'permanent' %}selected{% endif %}>Permanent</option>
-                <option value="intern" {% if request.GET.employment_type == 'intern' %}selected{% endif %}>Intern</option>
-                <option value="temporary" {% if request.GET.employment_type == 'temporary' %}selected{% endif %}>Temporary</option>
-            </select>
-            <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                Filter
-            </button>
-            {% if request.GET.q or request.GET.employment_type %}
-            <a href="?status={{ status_filter }}" class="text-dark-grey hover:text-primary px-4 py-2">Clear</a>
-            {% endif %}
-        </form>
-        <a href="{% url 'borrowers:borrower_import' %}" class="bg-success hover:bg-success-dark text-white px-4 py-2 rounded-lg font-medium transition-colors">
-            Import CSV
-        </a>
-    </div>
-    
-    <!-- Status Tabs -->
-    <div class="flex border-b border-light-grey">
-        <a href="?status=active{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.employment_type %}&employment_type={{ request.GET.employment_type }}{% endif %}" 
-           class="px-4 py-2 font-medium transition-colors border-b-2 -mb-px
-                  {% if status_filter == 'active' %}border-primary text-primary{% else %}border-transparent text-dark-grey hover:text-primary{% endif %}">
-            Active
-        </a>
-        <a href="?status=all{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.employment_type %}&employment_type={{ request.GET.employment_type }}{% endif %}" 
-           class="px-4 py-2 font-medium transition-colors border-b-2 -mb-px
-                  {% if status_filter == 'all' %}border-primary text-primary{% else %}border-transparent text-dark-grey hover:text-primary{% endif %}">
-            All
-        </a>
-        <a href="?status=inactive{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.employment_type %}&employment_type={{ request.GET.employment_type }}{% endif %}" 
-           class="px-4 py-2 font-medium transition-colors border-b-2 -mb-px
-                  {% if status_filter == 'inactive' %}border-primary text-primary{% else %}border-transparent text-dark-grey hover:text-primary{% endif %}">
-            Inactive
-        </a>
-    </div>
+<div class="card border border-light-grey p-4 mb-6">
+ <div class="d-flex d-flex-wrap gap-4 align-items-center justify-content-between mb-4">
+ <form method="get" class="d-flex d-flex-wrap gap-4 align-items-center" id="searchForm">
+ <input type="hidden" name="status" value="{{ status_filter }}" id="statusFilter">
+ <input type="text" name="q" placeholder="Search borrowers..." value="{{ request.GET.q }}" 
+ class="search-input w-64">
+ <select name="employment_type" class="filter-select" onchange="this.form.submit()">
+ <option value="">All Types</option>
+ <option value="permanent" {% if request.GET.employment_type == 'permanent' %}selected{% endif %}>Permanent</option>
+ <option value="intern" {% if request.GET.employment_type == 'intern' %}selected{% endif %}>Intern</option>
+ <option value="temporary" {% if request.GET.employment_type == 'temporary' %}selected{% endif %}>Temporary</option>
+ </select>
+ <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 font-medium transition-colors">
+ Filter
+ </button>
+ {% if request.GET.q or request.GET.employment_type %}
+ <a href="?status={{ status_filter }}" class="text-dark-grey hover:text-primary px-4 py-2">Clear</a>
+ {% endif %}
+ </form>
+ <a href="{% url 'borrowers:borrower_import' %}" class="bg-success hover:bg-success-dark text-white px-4 py-2 font-medium transition-colors">
+ Import CSV
+ </a>
+ </div>
+ 
+ <!-- Status Tabs -->
+ <div class="d-flex border-b border-light-grey">
+ <a href="?status=active{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.employment_type %}&employment_type={{ request.GET.employment_type }}{% endif %}" 
+ class="px-4 py-2 font-medium transition-colors border-b-2 -mb-px
+ {% if status_filter == 'active' %}border-primary text-primary{% else %}border-transparent text-dark-grey hover:text-primary{% endif %}">
+ Active
+ </a>
+ <a href="?status=all{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.employment_type %}&employment_type={{ request.GET.employment_type }}{% endif %}" 
+ class="px-4 py-2 font-medium transition-colors border-b-2 -mb-px
+ {% if status_filter == 'all' %}border-primary text-primary{% else %}border-transparent text-dark-grey hover:text-primary{% endif %}">
+ All
+ </a>
+ <a href="?status=inactive{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.employment_type %}&employment_type={{ request.GET.employment_type }}{% endif %}" 
+ class="px-4 py-2 font-medium transition-colors border-b-2 -mb-px
+ {% if status_filter == 'inactive' %}border-primary text-primary{% else %}border-transparent text-dark-grey hover:text-primary{% endif %}">
+ Inactive
+ </a>
+ </div>
 </div>
 
-<div class="bg-white rounded-xl border border-light-grey overflow-hidden">
-    <table class="min-w-full divide-y divide-light-grey">
-        <thead class="bg-light-grey/30">
-            <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Name</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Email</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Type</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Status</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-dark-grey uppercase tracking-wider">Actions</th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-light-grey">
-            {% for borrower in borrowers %}
-            <tr class="{% if not borrower.is_active %}bg-light-grey/20 opacity-60{% endif %}">
-                <td class="px-6 py-4">
-                    <div class="font-medium text-gray-900{% if not borrower.is_active %} line-through{% endif %}">{{ borrower.full_name }}</div>
-                </td>
-                <td class="px-6 py-4 text-dark-grey">{{ borrower.email }}</td>
-                <td class="px-6 py-4">
-                    <span class="px-3 py-1 text-xs font-medium rounded-full 
-                        {% if borrower.employment_type == 'permanent' %}bg-success-light text-success
-                        {% elif borrower.employment_type == 'intern' %}bg-warning-light text-warning
-                        {% else %}bg-light-grey text-dark-grey{% endif %}">
-                        {{ borrower.get_employment_type_display }}
-                    </span>
-                </td>
-                <td class="px-6 py-4">
-                    {% if borrower.is_active %}
-                    <span class="px-3 py-1 text-xs font-medium rounded-full bg-success-light text-success">Active</span>
-                    {% else %}
-                    <span class="px-3 py-1 text-xs font-medium rounded-full bg-danger-light text-danger">Inactive</span>
-                    {% endif %}
-                </td>
-                <td class="px-6 py-4 text-right whitespace-nowrap">
-                    <a href="{% url 'borrowers:borrower_detail' borrower.pk %}" class="text-primary hover:text-primary-dark mr-3">View</a>
-                    <a href="{% url 'borrowers:borrower_edit' borrower.pk %}" class="text-dark-grey hover:text-gray-900 mr-3">Edit</a>
-                    {% if borrower.is_active %}
-                    <a href="{% url 'borrowers:borrower_deactivate' borrower.pk %}" class="text-danger hover:text-red-700">Deactivate</a>
-                    {% else %}
-                    <a href="{% url 'borrowers:borrower_reactivate' borrower.pk %}" class="text-success hover:text-green-700">Reactivate</a>
-                    {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5" class="px-6 py-12 text-center text-dark-grey">
-                    <div class="flex flex-col items-center">
-                        <svg class="w-12 h-12 text-light-grey mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                        <p>No borrowers found.</p>
-                        <a href="{% url 'borrowers:borrower_create' %}" class="text-primary hover:text-primary-dark mt-2">Add your first borrower</a>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="card border border-light-grey">
+ <table class="w-100 divide-light-grey">
+ <thead class="bg-light-grey/30">
+ <tr>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Name</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Email</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Type</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Status</th>
+ <th class="px-6 py-3 text-right text-xs font-medium text-dark-grey">Actions</th>
+ </tr>
+ </thead>
+ <tbody class="card divide-light-grey">
+ {% for borrower in borrowers %}
+ <tr class="{% if not borrower.is_active %}bg-light-grey/20 opacity-60{% endif %}">
+ <td class="px-6 py-4">
+ <div class="font-medium text-dark-grey{% if not borrower.is_active %} line-through{% endif %}">{{ borrower.full_name }}</div>
+ </td>
+ <td class="px-6 py-4 text-dark-grey">{{ borrower.email }}</td>
+ <td class="px-6 py-4">
+ <span class="px-3 py-1 text-xs font-medium rounded-full 
+ {% if borrower.employment_type == 'permanent' %}bg-success-light text-success
+ {% elif borrower.employment_type == 'intern' %}bg-warning-light text-warning
+ {% else %}bg-light-grey text-dark-grey{% endif %}">
+ {{ borrower.get_employment_type_display }}
+ </span>
+ </td>
+ <td class="px-6 py-4">
+ {% if borrower.is_active %}
+ <span class="px-3 py-1 text-xs font-medium rounded-full bg-success-light text-success">Active</span>
+ {% else %}
+ <span class="px-3 py-1 text-xs font-medium rounded-full bg-danger-light text-danger">Inactive</span>
+ {% endif %}
+ </td>
+ <td class="px-6 py-4 text-right">
+ <a href="{% url 'borrowers:borrower_detail' borrower.pk %}" class="text-primary hover:text-primary-dark mr-3">View</a>
+ <a href="{% url 'borrowers:borrower_edit' borrower.pk %}" class="text-dark-grey hover:text-dark-grey mr-3">Edit</a>
+ {% if borrower.is_active %}
+ <a href="{% url 'borrowers:borrower_deactivate' borrower.pk %}" class="text-danger hover:text-red-700">Deactivate</a>
+ {% else %}
+ <a href="{% url 'borrowers:borrower_reactivate' borrower.pk %}" class="text-success hover:text-green-700">Reactivate</a>
+ {% endif %}
+ </td>
+ </tr>
+ {% empty %}
+ <tr>
+ <td colspan="5" class="px-6 py-12 text-center text-dark-grey">
+ <div class="d-flex d-flex-column align-items-center">
+ <svg class="w-12 h-12 text-light-grey mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+ </svg>
+ <p>No borrowers found.</p>
+ <a href="{% url 'borrowers:borrower_create' %}" class="text-primary hover:text-primary-dark mt-2">Add your first borrower</a>
+ </div>
+ </td>
+ </tr>
+ {% endfor %}
+ </tbody>
+ </table>
 </div>
 
-{% include "includes/pagination.html" %}
+{% include"includes/pagination.html" %}
 {% endblock %}

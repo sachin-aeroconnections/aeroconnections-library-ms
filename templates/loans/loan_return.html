@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Return Book - AeroConnections Library{% endblock %}
 {% block page_title %}Return Book{% endblock %}
@@ -6,80 +6,80 @@
 
 {% block content %}
 <div class="max-w-xl">
-    <div class="bg-white rounded-xl border border-light-grey p-6 mb-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Confirm Return</h3>
-        <div class="bg-light-grey/30 rounded-lg p-4 mb-6">
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Book</p>
-                    <p class="font-medium text-gray-900">#{{ loan.book_id_snapshot }} - {{ loan.book_copy.book.title }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Borrower</p>
-                    <p class="font-medium text-gray-900">{{ loan.borrower_name }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Days Out</p>
-                    <p class="font-bold {% if loan.is_overdue %}text-danger{% elif loan.is_due_soon %}text-warning{% endif %}">
-                        {{ loan.days_out }} days
-                    </p>
-                </div>
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Status</p>
-                    <span class="px-2 py-1 text-xs font-medium rounded-full 
-                        {% if loan.is_overdue %}bg-danger-light text-danger
-                        {% elif loan.is_due_soon %}bg-warning-light text-warning
-                        {% else %}bg-light-grey text-dark-grey{% endif %}">
-                        {{ loan.status_display }}
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <form method="post" enctype="multipart/form-data" class="bg-white rounded-xl border border-light-grey p-6">
-        {% csrf_token %}
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Return Notes (optional)</label>
-            <textarea name="notes" rows="4" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary" placeholder="Add any notes about the book's condition..."></textarea>
-        </div>
-        
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Damage Photo (optional)</label>
-            <div class="border-2 border-dashed border-light-grey rounded-lg p-6 text-center hover:border-primary transition-colors">
-                <input type="file" name="damage_image" accept="image/*" class="hidden" id="damage_image">
-                <label for="damage_image" class="cursor-pointer">
-                    <svg class="w-8 h-8 text-dark-grey mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    <p class="text-sm text-dark-grey">Click to upload or drag and drop</p>
-                    <p class="text-xs text-dark-grey mt-1">PNG, JPG up to 10MB</p>
-                </label>
-            </div>
-            <div id="file-preview" class="mt-2 hidden">
-                <p class="text-sm text-success">File selected: <span id="file-name"></span></p>
-            </div>
-        </div>
-        
-        <div class="flex gap-4">
-            <button type="submit" class="bg-success hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                Confirm Return
-            </button>
-            <a href="{% url 'loans:loan_detail' loan.pk %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 rounded-lg font-medium transition-colors">
-                Cancel
-            </a>
-        </div>
-    </form>
+ <div class="card border border-light-grey p-6 mb-6">
+ <h3 class="text-lg font-semibold text-dark-grey mb-4">Confirm Return</h3>
+ <div class="bg-light-grey/30 p-4 mb-6">
+ <div class="grid grid-cols-2 gap-4">
+ <div>
+ <p class="text-xs text-dark-grey">Book</p>
+ <p class="font-medium text-dark-grey">#{{ loan.book_id_snapshot }} - {{ loan.book_copy.book.title }}</p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Borrower</p>
+ <p class="font-medium text-dark-grey">{{ loan.borrower_name }}</p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Days Out</p>
+ <p class="font-bold {% if loan.is_overdue %}text-danger{% elif loan.is_due_soon %}text-warning{% endif %}">
+ {{ loan.days_out }} days
+ </p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Status</p>
+ <span class="px-2 py-1 text-xs font-medium rounded-full 
+ {% if loan.is_overdue %}bg-danger-light text-danger
+ {% elif loan.is_due_soon %}bg-warning-light text-warning
+ {% else %}bg-light-grey text-dark-grey{% endif %}">
+ {{ loan.status_display }}
+ </span>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+ <form method="post" enctype="multipart/form-data" class="card border border-light-grey p-6">
+ {% csrf_token %}
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Return Notes (optional)</label>
+ <textarea name="notes" rows="4" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary" placeholder="Add any notes about the book's condition..."></textarea>
+ </div>
+ 
+ <div class="mb-6">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Damage Photo (optional)</label>
+ <div class="border-2 border-dashed border-light-grey p-6 text-center hover:border-primary transition-colors">
+ <input type="file" name="damage_image" accept="image/*" class="hidden" id="damage_image">
+ <label for="damage_image" class="cursor-pointer">
+ <svg class="w-8 h-8 text-dark-grey mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+ </svg>
+ <p class="text-sm text-dark-grey">Click to upload or drag and drop</p>
+ <p class="text-xs text-dark-grey mt-1">PNG, JPG up to 10MB</p>
+ </label>
+ </div>
+ <div id="file-preview" class="mt-2 hidden">
+ <p class="text-sm text-success">File selected: <span id="file-name"></span></p>
+ </div>
+ </div>
+ 
+ <div class="d-flex gap-4">
+ <button type="submit" class="bg-success hover:bg-green-700 text-white px-6 py-2 font-medium transition-colors">
+ Confirm Return
+ </button>
+ <a href="{% url 'loans:loan_detail' loan.pk %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 font-medium transition-colors">
+ Cancel
+ </a>
+ </div>
+ </form>
 </div>
 
 <script>
 document.getElementById('damage_image').addEventListener('change', function(e) {
-    var file = e.target.files[0];
-    if (file) {
-        document.getElementById('file-preview').classList.remove('hidden');
-        document.getElementById('file-name').textContent = file.name;
-    }
+ var file = e.target.files[0];
+ if (file) {
+ document.getElementById('file-preview').classList.remove('hidden');
+ document.getElementById('file-name').textContent = file.name;
+ }
 });
 </script>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Add Book - AeroConnections Library{% endblock %}
 {% block page_title %}Add Book{% endblock %}
@@ -6,110 +6,110 @@
 
 {% block content %}
 <div class="max-w-xl">
-    <form method="post" class="bg-white rounded-xl border border-light-grey p-6">
-        {% csrf_token %}
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Book Title *</label>
-            <div class="relative">
-                <input type="text" name="title" id="id_title" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary" required autocomplete="off">
-                <div id="search_results" class="absolute z-10 w-full mt-1 bg-white border border-light-grey rounded-lg shadow-lg hidden max-h-60 overflow-y-auto"></div>
-            </div>
-            <p class="text-xs text-dark-grey mt-1">Type to search existing books for auto-fill</p>
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Author *</label>
-            <input type="text" name="author" id="id_author" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary" required>
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">ISBN</label>
-            <input type="text" name="isbn" id="id_isbn" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Number of Copies</label>
-            <input type="number" name="copies" value="1" min="1" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
-            <p class="text-xs text-dark-grey mt-1">How many copies of this book are in the library</p>
-        </div>
-        
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Internal ID (leave blank for auto)</label>
-            <input type="text" name="book_id" placeholder="Auto-generated if blank" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
-            <p class="text-xs text-dark-grey mt-1">Leave blank to auto-generate (01, 02, 03...)</p>
-        </div>
-        
-        <div class="flex gap-4">
-            <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                Add Book
-            </button>
-            <a href="{% url 'books:book_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 rounded-lg font-medium transition-colors">
-                Cancel
-            </a>
-        </div>
-    </form>
+ <form method="post" class="card border border-light-grey p-6">
+ {% csrf_token %}
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Book Title *</label>
+ <div class="relative">
+ <input type="text" name="title" id="id_title" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary" required autocomplete="off">
+ <div id="search_results" class="absolute z-10 w-full mt-1 card border border-light-grey shadow-sm-lg hidden max-h-60 overflow-y-auto"></div>
+ </div>
+ <p class="text-xs text-dark-grey mt-1">Type to search existing books for auto-fill</p>
+ </div>
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Author *</label>
+ <input type="text" name="author" id="id_author" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary" required>
+ </div>
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">ISBN</label>
+ <input type="text" name="isbn" id="id_isbn" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary">
+ </div>
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Number of Copies</label>
+ <input type="number" name="copies" value="1" min="1" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary">
+ <p class="text-xs text-dark-grey mt-1">How many copies of this book are in the library</p>
+ </div>
+ 
+ <div class="mb-6">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Internal ID (leave blank for auto)</label>
+ <input type="text" name="book_id" placeholder="Auto-generated if blank" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary">
+ <p class="text-xs text-dark-grey mt-1">Leave blank to auto-generate (01, 02, 03...)</p>
+ </div>
+ 
+ <div class="d-flex gap-4">
+ <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-6 py-2 font-medium transition-colors">
+ Add Book
+ </button>
+ <a href="{% url 'books:book_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 font-medium transition-colors">
+ Cancel
+ </a>
+ </div>
+ </form>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const titleInput = document.getElementById('id_title');
-    const authorInput = document.getElementById('id_author');
-    const isbnInput = document.getElementById('id_isbn');
-    const searchResults = document.getElementById('search_results');
-    let debounceTimer;
+ const titleInput = document.getElementById('id_title');
+ const authorInput = document.getElementById('id_author');
+ const isbnInput = document.getElementById('id_isbn');
+ const searchResults = document.getElementById('search_results');
+ let debounceTimer;
 
-    titleInput.addEventListener('input', function() {
-        clearTimeout(debounceTimer);
-        const query = this.value.trim();
-        
-        if (query.length < 2) {
-            searchResults.classList.add('hidden');
-            return;
-        }
+ titleInput.addEventListener('input', function() {
+ clearTimeout(debounceTimer);
+ const query = this.value.trim();
+ 
+ if (query.length < 2) {
+ searchResults.classList.add('hidden');
+ return;
+ }
 
-        debounceTimer = setTimeout(function() {
-            fetch(`/books/search/?q=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(data => {
-                    searchResults.innerHTML = '';
-                    if (data.length === 0) {
-                        searchResults.classList.add('hidden');
-                        return;
-                    }
-                    
-                    data.forEach(function(book) {
-                        const div = document.createElement('div');
-                        div.className = 'px-4 py-2 hover:bg-light-grey/50 cursor-pointer border-b border-light-grey/50 last:border-b-0';
-                        const titleDiv = document.createElement('div');
-                        titleDiv.className = 'font-medium';
-                        titleDiv.textContent = book.title;
-                        const authorDiv = document.createElement('div');
-                        authorDiv.className = 'text-sm text-dark-grey';
-                        authorDiv.textContent = book.author + (book.isbn ? ' | ISBN: ' + book.isbn : '');
-                        div.appendChild(titleDiv);
-                        div.appendChild(authorDiv);
-                        div.addEventListener('click', function() {
-                            titleInput.value = book.title;
-                            authorInput.value = book.author;
-                            isbnInput.value = book.isbn || '';
-                            searchResults.classList.add('hidden');
-                        });
-                        searchResults.appendChild(div);
-                    });
-                    searchResults.classList.remove('hidden');
-                })
-                .catch(error => {
-                    console.error('Error searching books:', error);
-                });
-        }, 300);
-    });
+ debounceTimer = setTimeout(function() {
+ fetch(`/books/search/?q=${encodeURIComponent(query)}`)
+ .then(response => response.json())
+ .then(data => {
+ searchResults.innerHTML = '';
+ if (data.length === 0) {
+ searchResults.classList.add('hidden');
+ return;
+ }
+ 
+ data.forEach(function(book) {
+ const div = document.createElement('div');
+ div.className = 'px-4 py-2 hover:bg-light-grey/50 cursor-pointer border-b border-light-grey/50 last:border-b-0';
+ const titleDiv = document.createElement('div');
+ titleDiv.className = 'font-medium';
+ titleDiv.textContent = book.title;
+ const authorDiv = document.createElement('div');
+ authorDiv.className = 'text-sm text-dark-grey';
+ authorDiv.textContent = book.author + (book.isbn ? ' | ISBN: ' + book.isbn : '');
+ div.appendChild(titleDiv);
+ div.appendChild(authorDiv);
+ div.addEventListener('click', function() {
+ titleInput.value = book.title;
+ authorInput.value = book.author;
+ isbnInput.value = book.isbn || '';
+ searchResults.classList.add('hidden');
+ });
+ searchResults.appendChild(div);
+ });
+ searchResults.classList.remove('hidden');
+ })
+ .catch(error => {
+ console.error('Error searching books:', error);
+ });
+ }, 300);
+ });
 
-    document.addEventListener('click', function(e) {
-        if (!titleInput.contains(e.target) && !searchResults.contains(e.target)) {
-            searchResults.classList.add('hidden');
-        }
-    });
+ document.addEventListener('click', function(e) {
+ if (!titleInput.contains(e.target) && !searchResults.contains(e.target)) {
+ searchResults.classList.add('hidden');
+ }
+ });
 });
 </script>
 {% endblock %}

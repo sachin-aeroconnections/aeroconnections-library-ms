@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Return Notes - AeroConnections Library{% endblock %}
 {% block page_title %}Return Notes{% endblock %}
@@ -6,130 +6,130 @@
 
 {% block extra_head %}
 <style>
-    .note-card {
-        background: rgba(255,255,255,0.95);
-        backdrop-filter: blur(10px);
-    }
-    .note-card:hover {
-        transform: translateY(-2px);
-    }
+ .note-card {
+ background: rgba(255,255,255,0.95);
+ backdrop-filter: blur(10px);
+ }
+ .note-card:hover {
+ transform: translateY(-2px);
+ }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="mb-6 flex flex-wrap gap-4 items-center justify-between">
-    <div class="flex-1 min-w-[200px] max-w-md">
-        <div class="relative">
-            <input type="text" id="searchInput" placeholder="Search notes..." 
-                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-light-grey bg-white/80 focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none text-dark-grey">
-            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-grey/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-        </div>
-    </div>
-    <select id="filterStatus" class="px-4 py-3 rounded-xl border border-light-grey bg-white/80 text-dark-grey focus:bg-white focus:border-primary outline-none cursor-pointer">
-        <option value="">All</option>
-        <option value="with-photo">With Photos</option>
-        <option value="with-notes">With Notes</option>
-    </select>
+<div class="mb-6 d-flex d-flex-wrap gap-4 align-items-center justify-content-between">
+ <div class="d-flex-1 min-w-[200px] max-w-md">
+ <div class="relative">
+ <input type="text" id="searchInput" placeholder="Search notes..." 
+ class="w-full pl-10 pr-4 py-3 border border-light-grey card/80 focus:card focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none text-dark-grey">
+ <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-dark-grey/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+ </svg>
+ </div>
+ </div>
+ <select id="filterStatus" class="px-4 py-3 border border-light-grey card/80 text-dark-grey focus:card focus:border-primary outline-none cursor-pointer">
+ <option value="">All</option>
+ <option value="with-photo">With Photos</option>
+ <option value="with-notes">With Notes</option>
+ </select>
 </div>
 
-<div id="notesContainer" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-    {% for note in notes %}
-    <div class="note-card rounded-xl border border-light-grey overflow-hidden transition-all duration-300" data-note-id="{{ note.id }}">
-        <div class="p-4">
-            <div class="flex items-start justify-between mb-3">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-danger/10 flex items-center justify-center flex-shrink-0">
-                        <span class="font-mono font-bold text-danger text-sm">{{ note.book.book_id }}</span>
-                    </div>
-                    <div class="min-w-0">
-                        <p class="font-semibold text-gray-900 truncate">{{ note.book.title }}</p>
-                        <p class="text-sm text-dark-grey/60">{{ note.borrower_name }}</p>
-                    </div>
-                </div>
-                {% if note.image %}
-                <span class="px-2 py-1 bg-danger/10 text-danger text-xs font-medium rounded-full flex-shrink-0">
-                    <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                    Photo
-                </span>
-                {% endif %}
-            </div>
-            
-            {% if note.note %}
-            <p class="text-gray-700 text-sm mb-3 line-clamp-2">{{ note.note }}</p>
-            {% endif %}
-            
-            {% if note.image %}
-            <div class="mb-3 rounded-lg overflow-hidden cursor-pointer" onclick="openLightbox('{{ note.image.url|escapejs }}')">
-                <img src="{{ note.image.url }}" alt="Return photo" class="w-full h-28 object-cover hover:opacity-90 transition-opacity">
-            </div>
-            {% endif %}
-            
-            <div class="flex items-center justify-between text-xs text-dark-grey/50 pt-2 border-t border-light-grey/50">
-                <span>{{ note.created_at|date:"M d, Y" }}</span>
-                <div class="flex items-center gap-2">
-                    <span>{{ note.created_by.username|default:"Staff" }}</span>
-                    {% if user.is_superuser %}
-                    <a href="{% url 'loans:return_note_delete' note.pk %}" class="text-danger hover:text-red-700 font-medium ml-2">Delete</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-    {% empty %}
-    <div class="col-span-full">
-        <div class="bg-white/90 rounded-xl border border-light-grey p-12 text-center">
-            <div class="w-16 h-16 bg-light-grey/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-dark-grey/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-            </div>
-            <p class="text-dark-grey/60">No return notes yet</p>
-        </div>
-    </div>
-    {% endfor %}
+<div id="notesContainer" class="grid gap-4 grid-cols-2 grid-cols-3">
+ {% for note in notes %}
+ <div class="note-card border border-light-grey transition-all duration-300" data-note-id="{{ note.id }}">
+ <div class="p-4">
+ <div class="d-flex items-start justify-content-between mb-3">
+ <div class="d-flex align-items-center gap-3">
+ <div class="w-10 h-10 bg-danger/10 d-flex align-items-center justify-content-center d-flex-shrink-0">
+ <span class="font-mono font-bold text-danger text-sm">{{ note.book.book_id }}</span>
+ </div>
+ <div class="min-w-0">
+ <p class="font-semibold text-dark-grey truncate">{{ note.book.title }}</p>
+ <p class="text-sm text-dark-grey/60">{{ note.borrower_name }}</p>
+ </div>
+ </div>
+ {% if note.image %}
+ <span class="px-2 py-1 bg-danger/10 text-danger text-xs font-medium rounded-full d-flex-shrink-0">
+ <svg class="w-3 h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+ </svg>
+ Photo
+ </span>
+ {% endif %}
+ </div>
+ 
+ {% if note.note %}
+ <p class="text-dark-grey text-sm mb-3 line-clamp-2">{{ note.note }}</p>
+ {% endif %}
+ 
+ {% if note.image %}
+ <div class="mb-3 cursor-pointer" onclick="openLightbox('{{ note.image.url|escapejs }}')">
+ <img src="{{ note.image.url }}" alt="Return photo" class="w-full h-28 object-cover hover:opacity-90 transition-opacity">
+ </div>
+ {% endif %}
+ 
+ <div class="d-flex align-items-center justify-content-between text-xs text-dark-grey/50 pt-2 border-t border-light-grey/50">
+ <span>{{ note.created_at|date:"M d, Y" }}</span>
+ <div class="d-flex align-items-center gap-2">
+ <span>{{ note.created_by.username|default:"Staff" }}</span>
+ {% if user.is_superuser %}
+ <a href="{% url 'loans:return_note_delete' note.pk %}" class="text-danger hover:text-red-700 font-medium ml-2">Delete</a>
+ {% endif %}
+ </div>
+ </div>
+ </div>
+ </div>
+ {% empty %}
+ <div class="col-span-full">
+ <div class="card/90 border border-light-grey p-12 text-center">
+ <div class="w-16 h-16 bg-light-grey/30 rounded-full d-flex align-items-center justify-content-center mb-4">
+ <svg class="w-8 h-8 text-dark-grey/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+ </svg>
+ </div>
+ <p class="text-dark-grey/60">No return notes yet</p>
+ </div>
+ </div>
+ {% endfor %}
 </div>
 
-<div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
-    <button class="absolute top-4 right-4 text-white hover:text-danger transition-colors">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-    </button>
-    <img id="lightboxImage" src="" alt="Full size" class="max-w-full max-h-[90vh] rounded-lg">
+<div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden align-items-center justify-content-center p-4 cursor-pointer" onclick="closeLightbox()">
+ <button class="absolute top-4 right-4 text-white hover:text-danger transition-colors">
+ <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+ </svg>
+ </button>
+ <img id="lightboxImage" src="" alt="Full size" class="max-w-full max-h-[90vh]">
 </div>
 
 <script>
 function openLightbox(url) {
-    event.stopPropagation();
-    document.getElementById('lightboxImage').src = url;
-    document.getElementById('lightbox').classList.remove('hidden');
-    document.getElementById('lightbox').classList.add('flex');
+ event.stopPropagation();
+ document.getElementById('lightboxImage').src = url;
+ document.getElementById('lightbox').classList.remove('hidden');
+ document.getElementById('lightbox').classList.add('d-flex');
 }
 function closeLightbox() {
-    document.getElementById('lightbox').classList.add('hidden');
-    document.getElementById('lightbox').classList.remove('flex');
+ document.getElementById('lightbox').classList.add('hidden');
+ document.getElementById('lightbox').classList.remove('d-flex');
 }
 
 document.getElementById('searchInput').addEventListener('input', function(e) {
-    const query = e.target.value.toLowerCase();
-    document.querySelectorAll('.note-card').forEach(card => {
-        card.style.display = card.textContent.toLowerCase().includes(query) ? 'block' : 'none';
-    });
+ const query = e.target.value.toLowerCase();
+ document.querySelectorAll('.note-card').forEach(card => {
+ card.style.display = card.textContent.toLowerCase().includes(query) ? 'block' : 'none';
+ });
 });
 
 document.getElementById('filterStatus').addEventListener('change', function(e) {
-    const filter = e.target.value;
-    document.querySelectorAll('.note-card').forEach(card => {
-        const hasImg = card.querySelector('img');
-        const hasNote = card.querySelector('.line-clamp-2')?.textContent.trim();
-        if (filter === 'with-photo') card.style.display = hasImg ? 'block' : 'none';
-        else if (filter === 'with-notes') card.style.display = hasNote ? 'block' : 'none';
-        else card.style.display = 'block';
-    });
+ const filter = e.target.value;
+ document.querySelectorAll('.note-card').forEach(card => {
+ const hasImg = card.querySelector('img');
+ const hasNote = card.querySelector('.line-clamp-2')?.textContent.trim();
+ if (filter === 'with-photo') card.style.display = hasImg ? 'block' : 'none';
+ else if (filter === 'with-notes') card.style.display = hasNote ? 'block' : 'none';
+ else card.style.display = 'block';
+ });
 });
 </script>
 {% endblock %}

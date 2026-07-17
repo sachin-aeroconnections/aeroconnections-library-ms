@@ -13,17 +13,12 @@ RUN apk add --no-cache \
     libpq-dev \
     postgresql-dev \
     python3 \
-    py3-pip \
-    nodejs \
-    npm
+    py3-pip
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-
-RUN npm install --save-dev tailwindcss@3 && \
-    ./node_modules/.bin/tailwindcss -i ./static/src/tailwind.css -o ./static/tailwind.min.css --minify
 RUN mkdir -p /app/data && python manage.py migrate
 
 RUN python manage.py collectstatic --noinput || true

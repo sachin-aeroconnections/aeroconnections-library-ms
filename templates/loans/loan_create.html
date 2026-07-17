@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}New Loan - AeroConnections Library{% endblock %}
 {% block page_title %}New Loan{% endblock %}
@@ -6,81 +6,81 @@
 
 {% block content %}
 <div class="max-w-xl">
-    <form method="post" class="bg-white rounded-xl border border-light-grey p-6">
-        {% csrf_token %}
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Book Copy *</label>
-            <select name="copy" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary bg-white" required>
-                <option value="">Select a book copy</option>
-                {% for copy in copies %}
-                <option value="{{ copy.pk }}">{{ copy.copy_id }} - {{ copy.book.title }} ({{ copy.book.author }})</option>
-                {% endfor %}
-            </select>
-            {% if not copies %}
-            <p class="text-sm text-warning mt-2">No available copies. All copies are currently on loan.</p>
-            {% endif %}
-        </div>
-        
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Borrower *</label>
-            <select name="borrower" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary bg-white" required>
-                <option value="">Select a borrower</option>
-                {% for borrower in borrowers %}
-                <option value="{{ borrower.pk }}">{{ borrower.full_name }} ({{ borrower.email }})</option>
-                {% endfor %}
-            </select>
-            {% if not borrowers %}
-            <p class="text-sm text-warning mt-2">No active borrowers. Please add borrowers first.</p>
-            {% endif %}
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Checkout Date *</label>
-            <input type="date" name="checkout_date" id="checkout_date" value="{{ today }}" max="{{ today }}" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
-            <p class="text-xs text-dark-grey mt-1">Leave as today for new loans. Select a past date to add historical records.</p>
-        </div>
-        
-        <div class="mb-6" id="due_date_container" style="display: none;">
-            <label class="block text-sm font-medium text-dark-grey mb-2">Expected Return Date</label>
-            <input type="date" name="expected_return_date" id="expected_return_date" class="w-full border border-light-grey rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
-            <p class="text-xs text-dark-grey mt-1">Leave blank to auto-calculate based on loan duration (30 days from checkout date).</p>
-        </div>
-        
-        <div class="bg-light-grey/30 rounded-lg p-4 mb-6">
-            <p class="text-sm text-dark-grey">
-                <strong>Note:</strong> Loan duration is 30 days. The due date will be automatically set based on checkout date.
-            </p>
-        </div>
-        
-        <div class="flex gap-4">
-            <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                Create Loan
-            </button>
-            <a href="{% url 'loans:loan_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 rounded-lg font-medium transition-colors">
-                Cancel
-            </a>
-        </div>
-    </form>
+ <form method="post" class="card border border-light-grey p-6">
+ {% csrf_token %}
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Book Copy *</label>
+ <select name="copy" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary card" required>
+ <option value="">Select a book copy</option>
+ {% for copy in copies %}
+ <option value="{{ copy.pk }}">{{ copy.copy_id }} - {{ copy.book.title }} ({{ copy.book.author }})</option>
+ {% endfor %}
+ </select>
+ {% if not copies %}
+ <p class="text-sm text-warning mt-2">No available copies. All copies are currently on loan.</p>
+ {% endif %}
+ </div>
+ 
+ <div class="mb-6">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Borrower *</label>
+ <select name="borrower" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary card" required>
+ <option value="">Select a borrower</option>
+ {% for borrower in borrowers %}
+ <option value="{{ borrower.pk }}">{{ borrower.full_name }} ({{ borrower.email }})</option>
+ {% endfor %}
+ </select>
+ {% if not borrowers %}
+ <p class="text-sm text-warning mt-2">No active borrowers. Please add borrowers first.</p>
+ {% endif %}
+ </div>
+ 
+ <div class="mb-4">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Checkout Date *</label>
+ <input type="date" name="checkout_date" id="checkout_date" value="{{ today }}" max="{{ today }}" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary">
+ <p class="text-xs text-dark-grey mt-1">Leave as today for new loans. Select a past date to add historical records.</p>
+ </div>
+ 
+ <div class="mb-6" id="due_date_container" style="display: none;">
+ <label class="block text-sm font-medium text-dark-grey mb-2">Expected Return Date</label>
+ <input type="date" name="expected_return_date" id="expected_return_date" class="w-full border border-light-grey px-4 py-2 focus:outline-none focus:border-primary">
+ <p class="text-xs text-dark-grey mt-1">Leave blank to auto-calculate based on loan duration (30 days from checkout date).</p>
+ </div>
+ 
+ <div class="bg-light-grey/30 p-4 mb-6">
+ <p class="text-sm text-dark-grey">
+ <strong>Note:</strong> Loan duration is 30 days. The due date will be automatically set based on checkout date.
+ </p>
+ </div>
+ 
+ <div class="d-flex gap-4">
+ <button type="submit" class="bg-primary hover:bg-primary-dark text-white px-6 py-2 font-medium transition-colors">
+ Create Loan
+ </button>
+ <a href="{% url 'loans:loan_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 font-medium transition-colors">
+ Cancel
+ </a>
+ </div>
+ </form>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const checkoutDateInput = document.getElementById('checkout_date');
-    const dueDateContainer = document.getElementById('due_date_container');
-    const today = '{{ today }}';
-    
-    function checkCheckoutDate() {
-        const selectedDate = checkoutDateInput.value;
-        if (selectedDate && selectedDate !== today) {
-            dueDateContainer.style.display = 'block';
-        } else {
-            dueDateContainer.style.display = 'none';
-        }
-    }
-    
-    checkoutDateInput.addEventListener('change', checkCheckoutDate);
-    checkCheckoutDate();
+ const checkoutDateInput = document.getElementById('checkout_date');
+ const dueDateContainer = document.getElementById('due_date_container');
+ const today = '{{ today }}';
+ 
+ function checkCheckoutDate() {
+ const selectedDate = checkoutDateInput.value;
+ if (selectedDate && selectedDate !== today) {
+ dueDateContainer.style.display = 'block';
+ } else {
+ dueDateContainer.style.display = 'none';
+ }
+ }
+ 
+ checkoutDateInput.addEventListener('change', checkCheckoutDate);
+ checkCheckoutDate();
 });
 </script>
 {% endblock %}

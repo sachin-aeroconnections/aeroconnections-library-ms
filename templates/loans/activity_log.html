@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Activity Log - AeroConnections Library{% endblock %}
 {% block page_title %}Activity Log{% endblock %}
@@ -6,80 +6,80 @@
 
 {% block content %}
 <!-- Filter -->
-<div class="bg-white rounded-xl border border-light-grey p-4 mb-6">
-    <form method="get" class="flex gap-4 items-center">
-        <label class="text-sm text-dark-grey font-medium">Filter by action:</label>
-        <select name="action" class="filter-select" onchange="this.form.submit()">
-            <option value="">All Actions</option>
-            <option value="checkout" {% if request.GET.action == 'checkout' %}selected{% endif %}>Checkouts</option>
-            <option value="return" {% if request.GET.action == 'return' %}selected{% endif %}>Returns</option>
-            <option value="book_created" {% if request.GET.action == 'book_created' %}selected{% endif %}>Books Added</option>
-            <option value="book_updated" {% if request.GET.action == 'book_updated' %}selected{% endif %}>Books Updated</option>
-            <option value="borrower_created" {% if request.GET.action == 'borrower_created' %}selected{% endif %}>Borrowers Added</option>
-            <option value="borrower_updated" {% if request.GET.action == 'borrower_updated' %}selected{% endif %}>Borrowers Updated</option>
-            <option value="borrower_deactivated" {% if request.GET.action == 'borrower_deactivated' %}selected{% endif %}>Borrowers Deactivated</option>
-        </select>
-    </form>
+<div class="card border border-light-grey p-4 mb-6">
+ <form method="get" class="d-flex gap-4 align-items-center">
+ <label class="text-sm text-dark-grey font-medium">Filter by action:</label>
+ <select name="action" class="filter-select" onchange="this.form.submit()">
+ <option value="">All Actions</option>
+ <option value="checkout" {% if request.GET.action == 'checkout' %}selected{% endif %}>Checkouts</option>
+ <option value="return" {% if request.GET.action == 'return' %}selected{% endif %}>Returns</option>
+ <option value="book_created" {% if request.GET.action == 'book_created' %}selected{% endif %}>Books Added</option>
+ <option value="book_updated" {% if request.GET.action == 'book_updated' %}selected{% endif %}>Books Updated</option>
+ <option value="borrower_created" {% if request.GET.action == 'borrower_created' %}selected{% endif %}>Borrowers Added</option>
+ <option value="borrower_updated" {% if request.GET.action == 'borrower_updated' %}selected{% endif %}>Borrowers Updated</option>
+ <option value="borrower_deactivated" {% if request.GET.action == 'borrower_deactivated' %}selected{% endif %}>Borrowers Deactivated</option>
+ </select>
+ </form>
 </div>
 
-<div class="bg-white rounded-xl border border-light-grey overflow-hidden">
-    <table class="min-w-full divide-y divide-light-grey">
-        <thead class="bg-light-grey/30">
-            <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Timestamp</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Action</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Description</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">User</th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-light-grey">
-            {% for log in logs %}
-            <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-dark-grey">
-                    {{ log.timestamp|date:"M d, Y H:i" }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="px-3 py-1 text-xs font-medium rounded-full 
-                        {% if log.action == 'checkout' %}bg-warning-light text-warning
-                        {% elif log.action == 'return' %}bg-success-light text-success
-                        {% elif 'created' in log.action %}bg-primary/10 text-primary
-                        {% elif 'updated' in log.action %}bg-blue-100 text-blue-600
-                        {% elif 'deactivated' in log.action %}bg-danger-light text-danger
-                        {% else %}bg-light-grey text-dark-grey{% endif %}">
-                        {{ log.get_action_display }}
-                    </span>
-                </td>
-                <td class="px-6 py-4 text-sm text-gray-900">
-                    {{ log.description }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-dark-grey">
-                    {{ log.user.username|default:"System" }}
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" class="px-6 py-12 text-center text-dark-grey">
-                    <div class="flex flex-col items-center">
-                        <svg class="w-12 h-12 text-light-grey mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <p>No activity recorded yet.</p>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="card border border-light-grey">
+ <table class="w-100 divide-light-grey">
+ <thead class="bg-light-grey/30">
+ <tr>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Timestamp</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Action</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Description</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">User</th>
+ </tr>
+ </thead>
+ <tbody class="card divide-light-grey">
+ {% for log in logs %}
+ <tr>
+ <td class="px-6 py-4 text-sm text-dark-grey">
+ {{ log.timestamp|date:"M d, Y H:i" }}
+ </td>
+ <td class="px-6 py-4">
+ <span class="px-3 py-1 text-xs font-medium rounded-full 
+ {% if log.action == 'checkout' %}bg-warning-light text-warning
+ {% elif log.action == 'return' %}bg-success-light text-success
+ {% elif 'created' in log.action %}bg-primary/10 text-primary
+ {% elif 'updated' in log.action %}bg-blue-100 text-blue-600
+ {% elif 'deactivated' in log.action %}bg-danger-light text-danger
+ {% else %}bg-light-grey text-dark-grey{% endif %}">
+ {{ log.get_action_display }}
+ </span>
+ </td>
+ <td class="px-6 py-4 text-sm text-dark-grey">
+ {{ log.description }}
+ </td>
+ <td class="px-6 py-4 text-sm text-dark-grey">
+ {{ log.user.username|default:"System" }}
+ </td>
+ </tr>
+ {% empty %}
+ <tr>
+ <td colspan="4" class="px-6 py-12 text-center text-dark-grey">
+ <div class="d-flex d-flex-column align-items-center">
+ <svg class="w-12 h-12 text-light-grey mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+ </svg>
+ <p>No activity recorded yet.</p>
+ </div>
+ </td>
+ </tr>
+ {% endfor %}
+ </tbody>
+ </table>
 </div>
 
-{% include "includes/pagination.html" %}
+{% include"includes/pagination.html" %}
 
-<div class="mt-4 bg-light-grey/30 rounded-lg p-4">
-    <div class="flex items-center gap-2 text-sm text-dark-grey">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-        </svg>
-        <span>Activity logs are immutable and cannot be modified or deleted.</span>
-    </div>
+<div class="mt-4 bg-light-grey/30 p-4">
+ <div class="d-flex align-items-center gap-2 text-sm text-dark-grey">
+ <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+ </svg>
+ <span>Activity logs are immutable and cannot be modified or deleted.</span>
+ </div>
 </div>
 {% endblock %}

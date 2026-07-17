@@ -1,286 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - AeroConnections Library</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: { DEFAULT: '#DA291C', dark: '#B8231A', light: '#FEE2E2' },
-                        'light-grey': '#C8C9C7',
-                        'dark-grey': '#5B6770',
-                        success: { DEFAULT: '#059669', light: '#D1FAE5' },
-                        warning: { DEFAULT: '#D97706', light: '#FEF3C7' },
-                        danger: { DEFAULT: '#DA291C', light: '#FEE2E2' },
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Animated Background */
-        .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background: linear-gradient(135deg, #5B6770 0%, #3d454d 100%);
-        }
-        
-        .animated-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 80%, rgba(218, 41, 28, 0.2) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(218, 41, 28, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 40%, rgba(200, 201, 199, 0.15) 0%, transparent 40%);
-            animation: pulse-bg 8s ease-in-out infinite;
-        }
-        
-        @keyframes pulse-bg {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
-        }
-        
-        .floating-shapes {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        
-        .shape {
-            position: absolute;
-            opacity: 0.15;
-            animation: float 20s infinite ease-in-out;
-        }
-        
-        .shape-1 {
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, #DA291C 0%, transparent 70%);
-            border-radius: 50%;
-            top: -150px;
-            left: -150px;
-            animation-delay: 0s;
-        }
-        
-        .shape-2 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, #C8C9C7 0%, transparent 70%);
-            border-radius: 50%;
-            top: 50%;
-            right: -100px;
-            animation-delay: -5s;
-        }
-        
-        .shape-3 {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, #DA291C 0%, transparent 70%);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            bottom: 10%;
-            left: 10%;
-            animation-delay: -10s;
-        }
-        
-        .shape-4 {
-            width: 150px;
-            height: 150px;
-            background: linear-gradient(135deg, #C8C9C7 0%, transparent 70%);
-            border-radius: 50%;
-            top: 20%;
-            right: 20%;
-            animation-delay: -15s;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(30px, -30px) rotate(5deg); }
-            50% { transform: translate(0, -50px) rotate(0deg); }
-            75% { transform: translate(-30px, -30px) rotate(-5deg); }
-        }
-        
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(218, 41, 28, 0.5);
-            border-radius: 50%;
-            animation: drift 15s infinite linear;
-        }
-        
-        @keyframes drift {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
-        }
-        
-        .gradient-overlay {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: conic-gradient(from 0deg at 50% 50%, 
-                rgba(218, 41, 28, 0.05) 0deg, 
-                transparent 60deg, 
-                rgba(200, 201, 199, 0.03) 120deg, 
-                transparent 180deg, 
-                rgba(218, 41, 28, 0.05) 240deg, 
-                transparent 300deg, 
-                rgba(200, 201, 199, 0.03) 360deg);
-            animation: rotate-gradient 30s linear infinite;
-        }
-        
-        @keyframes rotate-gradient {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 150px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23DA291C' fill-opacity='0.1' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
-            background-size: 50% 150px;
-            animation: wave 20s linear infinite;
-        }
-        
-        @keyframes wave {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-        
-        /* Login card animation */
-        .login-card {
-            animation: slideUp 0.6s ease-out;
-        }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Login - AeroConnections Library</title>
+ <script src="https://cdn.tailwindcss.com"></script>
+ <script>
+ tailwind.config = {
+ theme: {
+ extend: {
+ colors: {
+ primary: { DEFAULT: '#DA291C', dark: '#B8231A', light: '#FEE2E2' },
+ 'light-grey': '#C8C9C7',
+ 'dark-grey': '#5B6770',
+ success: { DEFAULT: '#059669', light: '#D1FAE5' },
+ warning: { DEFAULT: '#D97706', light: '#FEF3C7' },
+ danger: { DEFAULT: '#DA291C', light: '#FEE2E2' },
+ }
+ }
+ }
+ }
+ </script>
+ <style>
+ /* Animated Background */
+ .animated-bg {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: -1;
+ overflow: hidden;
+ background: linear-gradient(135deg, #5B6770 0%, #3d454d 100%);
+ }
+ 
+ .animated-bg::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: radial-gradient(circle at 20% 80%, rgba(218, 41, 28, 0.2) 0%, transparent 50%),
+ radial-gradient(circle at 80% 20%, rgba(218, 41, 28, 0.15) 0%, transparent 50%),
+ radial-gradient(circle at 40% 40%, rgba(200, 201, 199, 0.15) 0%, transparent 40%);
+ animation: pulse-bg 8s ease-in-out infinite;
+ }
+ 
+ @keyframes pulse-bg {
+ 0%, 100% { opacity: 0.6; transform: scale(1); }
+ 50% { opacity: 1; transform: scale(1.05); }
+ }
+ 
+ .floating-shapes {
+ position: absolute;
+ width: 100%;
+ height: 100%;
+ overflow: hidden;
+ }
+ 
+ .shape {
+ position: absolute;
+ opacity: 0.15;
+ animation: float 20s infinite ease-in-out;
+ }
+ 
+ .shape-1 {
+ width: 400px;
+ height: 400px;
+ background: linear-gradient(135deg, #DA291C 0%, transparent 70%);
+ border-radius: 50%;
+ top: -150px;
+ left: -150px;
+ animation-delay: 0s;
+ }
+ 
+ .shape-2 {
+ width: 300px;
+ height: 300px;
+ background: linear-gradient(135deg, #C8C9C7 0%, transparent 70%);
+ border-radius: 50%;
+ top: 50%;
+ right: -100px;
+ animation-delay: -5s;
+ }
+ 
+ .shape-3 {
+ width: 200px;
+ height: 200px;
+ background: linear-gradient(135deg, #DA291C 0%, transparent 70%);
+ border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+ bottom: 10%;
+ left: 10%;
+ animation-delay: -10s;
+ }
+ 
+ .shape-4 {
+ width: 150px;
+ height: 150px;
+ background: linear-gradient(135deg, #C8C9C7 0%, transparent 70%);
+ border-radius: 50%;
+ top: 20%;
+ right: 20%;
+ animation-delay: -15s;
+ }
+ 
+ @keyframes float {
+ 0%, 100% { transform: translate(0, 0) rotate(0deg); }
+ 25% { transform: translate(30px, -30px) rotate(5deg); }
+ 50% { transform: translate(0, -50px) rotate(0deg); }
+ 75% { transform: translate(-30px, -30px) rotate(-5deg); }
+ }
+ 
+ .particles {
+ position: absolute;
+ width: 100%;
+ height: 100%;
+ }
+ 
+ .particle {
+ position: absolute;
+ width: 4px;
+ height: 4px;
+ background: rgba(218, 41, 28, 0.5);
+ border-radius: 50%;
+ animation: drift 15s infinite linear;
+ }
+ 
+ @keyframes drift {
+ 0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+ 10% { opacity: 1; }
+ 90% { opacity: 1; }
+ 100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+ }
+ 
+ .gradient-overlay {
+ position: absolute;
+ width: 200%;
+ height: 200%;
+ top: -50%;
+ left: -50%;
+ background: conic-gradient(from 0deg at 50% 50%, 
+ rgba(218, 41, 28, 0.05) 0deg, 
+ transparent 60deg, 
+ rgba(200, 201, 199, 0.03) 120deg, 
+ transparent 180deg, 
+ rgba(218, 41, 28, 0.05) 240deg, 
+ transparent 300deg, 
+ rgba(200, 201, 199, 0.03) 360deg);
+ animation: rotate-gradient 30s linear infinite;
+ }
+ 
+ @keyframes rotate-gradient {
+ from { transform: rotate(0deg); }
+ to { transform: rotate(360deg); }
+ }
+ 
+ .wave {
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ width: 200%;
+ height: 150px;
+ background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23DA291C' fill-opacity='0.1' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+ background-size: 50% 150px;
+ animation: wave 20s linear infinite;
+ }
+ 
+ @keyframes wave {
+ from { transform: translateX(0); }
+ to { transform: translateX(-50%); }
+ }
+ 
+ /* Login card animation */
+ .login-card {
+ animation: slideUp 0.6s ease-out;
+ }
+ 
+ @keyframes slideUp {
+ from { opacity: 0; transform: translateY(30px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+ </style>
 </head>
 <body class="min-h-screen">
-    <!-- Animated Background -->
-    <div class="animated-bg">
-        <div class="floating-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-            <div class="shape shape-4"></div>
-        </div>
-        <div class="particles" id="particles"></div>
-        <div class="gradient-overlay"></div>
-        <div class="wave"></div>
-    </div>
-    
-    <div class="flex items-center justify-center min-h-screen px-4">
-        <div class="login-card w-full max-w-md bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20">
-            <div class="text-center mb-8">
-                <img src="{{ branding.logo_url }}" alt="{{ branding.company_name }}" class="h-14 mx-auto mb-4">
-                <h1 class="text-2xl font-bold text-dark-grey">{{ branding.library_name }}</h1>
-                <p class="text-sm text-dark-grey/70 mt-1">Sign in to your account</p>
-            </div>
-            
-            {% if form.errors %}
-            <div class="bg-danger-light border border-danger text-danger px-4 py-3 rounded-lg mb-6">
-                <p class="text-sm">Your username and password didn't match. Please try again.</p>
-            </div>
-            {% endif %}
-            
-            {% if next %}
-            <div class="bg-warning-light border border-warning text-warning px-4 py-3 rounded-lg mb-6">
-                <p class="text-sm">Please log in to access this page.</p>
-            </div>
-            {% endif %}
-            
-            <form method="post" class="space-y-5">
-                {% csrf_token %}
-                
-                <div>
-                    <label for="id_login" class="block text-sm font-medium text-dark-grey mb-2">Username</label>
-                    <input type="text" name="login" id="id_login" 
-                           class="w-full border border-light-grey rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                           placeholder="Enter your username" required>
-                </div>
-                
-                <div>
-                    <label for="id_password" class="block text-sm font-medium text-dark-grey mb-2">Password</label>
-                    <input type="password" name="password" id="id_password"
-                           class="w-full border border-light-grey rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                           placeholder="Enter your password" required>
-                </div>
-                
-                <div class="flex items-center justify-between text-sm">
-                    <label class="flex items-center cursor-pointer">
-                        <input type="checkbox" name="remember" id="id_remember" 
-                               class="w-4 h-4 text-primary border-light-grey rounded focus:ring-primary">
-                        <span class="ml-2 text-dark-grey">Remember me</span>
-                    </label>
-                    <a href="{% url 'account_reset_password' %}" class="text-primary hover:text-primary-dark transition-colors">
-                        Forgot password?
-                    </a>
-                </div>
-                
-                <button type="submit" 
-                        class="w-full bg-primary hover:bg-primary-dark text-white font-medium py-3 rounded-lg transition-all transform hover:scale-[1.02] active:scale-[0.98]">
-                    Sign In
-                </button>
-            </form>
-            
-            <div class="mt-6 pt-6 border-t border-light-grey text-center">
-                <p class="text-sm text-dark-grey/70">
-                    Need access? Contact your administrator.
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    <p class="fixed bottom-4 left-0 right-0 text-center text-white/40 text-sm">
-        © 2026 AeroConnections. All rights reserved.
-    </p>
-    
-    <script>
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 25;
-        
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-            
-            const colors = ['rgba(218, 41, 28, 0.6)', 'rgba(200, 201, 199, 0.5)', 'rgba(255, 255, 255, 0.3)'];
-            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-            particle.style.width = (2 + Math.random() * 4) + 'px';
-            particle.style.height = particle.style.width;
-            
-            particlesContainer.appendChild(particle);
-        }
-    </script>
+ <!-- Animated Background -->
+ <div class="animated-bg">
+ <div class="floating-shapes">
+ <div class="shape shape-1"></div>
+ <div class="shape shape-2"></div>
+ <div class="shape shape-3"></div>
+ <div class="shape shape-4"></div>
+ </div>
+ <div class="particles" id="particles"></div>
+ <div class="gradient-overlay"></div>
+ <div class="wave"></div>
+ </div>
+ 
+ <div class="d-flex align-items-center justify-content-center min-h-screen px-4">
+ <div class="login-card w-full max-w-md card/95 backdrop-blur-lg rounded-2xl shadow-sm-2xl p-8 border border-white/20">
+ <div class="text-center mb-8">
+ <img src="{{ branding.logo_url }}" alt="{{ branding.company_name }}" class="h-14 mb-4">
+ <h1 class="text-2xl font-bold text-dark-grey">{{ branding.library_name }}</h1>
+ <p class="text-sm text-dark-grey/70 mt-1">Sign in to your account</p>
+ </div>
+ 
+ {% if form.errors %}
+ <div class="bg-danger-light border border-danger text-danger px-4 py-3 mb-6">
+ <p class="text-sm">Your username and password didn't match. Please try again.</p>
+ </div>
+ {% endif %}
+ 
+ {% if next %}
+ <div class="bg-warning-light border border-warning text-warning px-4 py-3 mb-6">
+ <p class="text-sm">Please log in to access this page.</p>
+ </div>
+ {% endif %}
+ 
+ <form method="post" class="space-y-5">
+ {% csrf_token %}
+ 
+ <div>
+ <label for="id_login" class="block text-sm font-medium text-dark-grey mb-2">Username</label>
+ <input type="text" name="login" id="id_login" 
+ class="w-full border border-light-grey px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+ placeholder="Enter your username" required>
+ </div>
+ 
+ <div>
+ <label for="id_password" class="block text-sm font-medium text-dark-grey mb-2">Password</label>
+ <input type="password" name="password" id="id_password"
+ class="w-full border border-light-grey px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+ placeholder="Enter your password" required>
+ </div>
+ 
+ <div class="d-flex align-items-center justify-content-between text-sm">
+ <label class="d-flex align-items-center cursor-pointer">
+ <input type="checkbox" name="remember" id="id_remember" 
+ class="text-primary border-light-grey rounded focus:ring-primary">
+ <span class="ml-2 text-dark-grey">Remember me</span>
+ </label>
+ <a href="{% url 'account_reset_password' %}" class="text-primary hover:text-primary-dark transition-colors">
+ Forgot password?
+ </a>
+ </div>
+ 
+ <button type="submit" 
+ class="w-full bg-primary hover:bg-primary-dark text-white font-medium py-3 transition-all transform hover:scale-[1.02] active:scale-[0.98]">
+ Sign In
+ </button>
+ </form>
+ 
+ <div class="mt-6 pt-6 border-t border-light-grey text-center">
+ <p class="text-sm text-dark-grey/70">
+ Need access? Contact your administrator.
+ </p>
+ </div>
+ </div>
+ </div>
+ 
+ <p class="fixed bottom-4 left-0 right-0 text-center text-white/40 text-sm">
+ © 2026 AeroConnections. All rights reserved.
+ </p>
+ 
+ <script>
+ const particlesContainer = document.getElementById('particles');
+ const particleCount = 25;
+ 
+ for (let i = 0; i < particleCount; i++) {
+ const particle = document.createElement('div');
+ particle.className = 'particle';
+ particle.style.left = Math.random() * 100 + '%';
+ particle.style.animationDelay = Math.random() * 15 + 's';
+ particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+ 
+ const colors = ['rgba(218, 41, 28, 0.6)', 'rgba(200, 201, 199, 0.5)', 'rgba(255, 255, 255, 0.3)'];
+ particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+ particle.style.width = (2 + Math.random() * 4) + 'px';
+ particle.style.height = particle.style.width;
+ 
+ particlesContainer.appendChild(particle);
+ }
+ </script>
 </body>
 </html>

@@ -1,78 +1,78 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Delete Return Note - AeroConnections Library{% endblock %}
 {% block page_title %}Delete Return Note{% endblock %}
 {% block page_subtitle %}This action cannot be undone{% endblock %}
 
 {% block content %}
-<div class="max-w-lg mx-auto">
-    <div class="bg-white rounded-xl border border-danger p-6">
-        <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-full bg-danger-light flex items-center justify-center">
-                <svg class="w-5 h-5 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-            </div>
-            <h3 class="text-lg font-semibold text-danger">Warning</h3>
-        </div>
-        
-        <p class="text-dark-grey mb-6">
-            You are about to delete the following return note. This action cannot be undone.
-        </p>
-        
-        <div class="bg-light-grey/30 rounded-lg p-4 mb-6">
-            <div class="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Copy</p>
-                    <p class="font-medium text-gray-900">{{ note.book_copy.copy_id }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Book</p>
-                    <p class="font-medium text-gray-900">{{ note.book_copy.book.title }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Borrower</p>
-                    <p class="font-medium text-gray-900">{{ note.borrower_name }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Date</p>
-                    <p class="font-medium text-gray-900">{{ note.created_at|date:"M d, Y H:i" }}</p>
-                </div>
-            </div>
-            {% if note.note %}
-            <div class="mt-4 pt-4 border-t border-light-grey">
-                <p class="text-xs text-dark-grey uppercase tracking-wider mb-1">Note</p>
-                <p class="text-sm text-gray-900">{{ note.note|truncatewords:20 }}</p>
-            </div>
-            {% endif %}
-            {% if note.image %}
-            <div class="mt-4 pt-4 border-t border-light-grey">
-                <p class="text-xs text-dark-grey uppercase tracking-wider mb-1">Photo</p>
-                <img src="{{ note.image.url }}" alt="Return photo" class="max-w-[200px] rounded-lg border border-light-grey">
-            </div>
-            {% endif %}
-        </div>
-        
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-6">
-                <label class="block text-sm font-medium text-dark-grey mb-2">
-                    Type <strong class="text-danger">DELETE</strong> to confirm:
-                </label>
-                <input type="text" name="confirm_text" placeholder="DELETE" 
-                       class="w-full border border-danger rounded-lg px-4 py-2 focus:outline-none focus:border-danger focus:ring-2 focus:ring-danger/20"
-                       autocomplete="off">
-            </div>
-            
-            <div class="flex gap-4">
-                <button type="submit" class="bg-danger hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                    Delete Note
-                </button>
-                <a href="{% url 'loans:return_notes' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 rounded-lg font-medium transition-colors">
-                    Cancel
-                </a>
-            </div>
-        </form>
-    </div>
+<div class="max-w-lg">
+ <div class="card border border-danger p-6">
+ <div class="d-flex align-items-center gap-3 mb-4">
+ <div class="w-10 h-10 rounded-full bg-danger-light d-flex align-items-center justify-content-center">
+ <svg class="text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+ </svg>
+ </div>
+ <h3 class="text-lg font-semibold text-danger">Warning</h3>
+ </div>
+ 
+ <p class="text-dark-grey mb-6">
+ You are about to delete the following return note. This action cannot be undone.
+ </p>
+ 
+ <div class="bg-light-grey/30 p-4 mb-6">
+ <div class="grid grid-cols-2 gap-4 text-sm">
+ <div>
+ <p class="text-xs text-dark-grey">Copy</p>
+ <p class="font-medium text-dark-grey">{{ note.book_copy.copy_id }}</p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Book</p>
+ <p class="font-medium text-dark-grey">{{ note.book_copy.book.title }}</p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Borrower</p>
+ <p class="font-medium text-dark-grey">{{ note.borrower_name }}</p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Date</p>
+ <p class="font-medium text-dark-grey">{{ note.created_at|date:"M d, Y H:i" }}</p>
+ </div>
+ </div>
+ {% if note.note %}
+ <div class="mt-4 pt-4 border-t border-light-grey">
+ <p class="text-xs text-dark-grey mb-1">Note</p>
+ <p class="text-sm text-dark-grey">{{ note.note|truncatewords:20 }}</p>
+ </div>
+ {% endif %}
+ {% if note.image %}
+ <div class="mt-4 pt-4 border-t border-light-grey">
+ <p class="text-xs text-dark-grey mb-1">Photo</p>
+ <img src="{{ note.image.url }}" alt="Return photo" class="max-w-[200px] border border-light-grey">
+ </div>
+ {% endif %}
+ </div>
+ 
+ <form method="post">
+ {% csrf_token %}
+ <div class="mb-6">
+ <label class="block text-sm font-medium text-dark-grey mb-2">
+ Type <strong class="text-danger">DELETE</strong> to confirm:
+ </label>
+ <input type="text" name="confirm_text" placeholder="DELETE" 
+ class="w-full border border-danger px-4 py-2 focus:outline-none focus:border-danger focus:ring-2 focus:ring-danger/20"
+ autocomplete="off">
+ </div>
+ 
+ <div class="d-flex gap-4">
+ <button type="submit" class="bg-danger hover:bg-red-700 text-white px-6 py-2 font-medium transition-colors">
+ Delete Note
+ </button>
+ <a href="{% url 'loans:return_notes' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-6 py-2 font-medium transition-colors">
+ Cancel
+ </a>
+ </div>
+ </form>
+ </div>
 </div>
 {% endblock %}

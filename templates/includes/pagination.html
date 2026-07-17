@@ -1,48 +1,48 @@
 {% if page_obj.has_other_pages %}
 <nav class="mt-6" aria-label="Pagination">
-    <div class="flex flex-wrap items-center justify-center gap-2">
-        {% if page_obj.has_previous %}
-        <a
-            href="?page={{ page_obj.previous_page_number }}{% if pagination_query %}&{{ pagination_query }}{% endif %}"
-            class="px-3 py-2 text-sm border border-light-grey rounded-lg bg-white text-dark-grey hover:bg-light-grey/30 transition-colors"
-        >
-            Prev
-        </a>
-        {% else %}
-        <span class="px-3 py-2 text-sm border border-light-grey rounded-lg bg-light-grey/20 text-gray-400 cursor-not-allowed">
-            Prev
-        </span>
-        {% endif %}
+ <div class="d-flex d-flex-wrap align-items-center justify-content-center gap-2">
+ {% if page_obj.has_previous %}
+ <a
+ href="?page={{ page_obj.previous_page_number }}{% if pagination_query %}&{{ pagination_query }}{% endif %}"
+ class="px-3 py-2 text-sm border border-light-grey card text-dark-grey hover:bg-light-grey/30 transition-colors"
+ >
+ Prev
+ </a>
+ {% else %}
+ <span class="px-3 py-2 text-sm border border-light-grey bg-light-grey/20 text-muted cursor-not-allowed">
+ Prev
+ </span>
+ {% endif %}
 
-        <span class="px-4 py-2 text-sm border border-light-grey rounded-lg bg-light-grey/30 text-dark-grey">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-        </span>
+ <span class="px-4 py-2 text-sm border border-light-grey bg-light-grey/30 text-dark-grey">
+ Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+ </span>
 
-        {% if page_obj.has_next %}
-        <a
-            href="?page={{ page_obj.next_page_number }}{% if pagination_query %}&{{ pagination_query }}{% endif %}"
-            class="px-3 py-2 text-sm border border-light-grey rounded-lg bg-white text-dark-grey hover:bg-light-grey/30 transition-colors"
-        >
-            Next
-        </a>
-        {% else %}
-        <span class="px-3 py-2 text-sm border border-light-grey rounded-lg bg-light-grey/20 text-gray-400 cursor-not-allowed">
-            Next
-        </span>
-        {% endif %}
+ {% if page_obj.has_next %}
+ <a
+ href="?page={{ page_obj.next_page_number }}{% if pagination_query %}&{{ pagination_query }}{% endif %}"
+ class="px-3 py-2 text-sm border border-light-grey card text-dark-grey hover:bg-light-grey/30 transition-colors"
+ >
+ Next
+ </a>
+ {% else %}
+ <span class="px-3 py-2 text-sm border border-light-grey bg-light-grey/20 text-muted cursor-not-allowed">
+ Next
+ </span>
+ {% endif %}
 
-        <a
-            href="?page=1{% if pagination_query %}&{{ pagination_query }}{% endif %}"
-            class="hidden sm:inline-block px-3 py-2 text-sm border border-light-grey rounded-lg bg-white text-dark-grey hover:bg-light-grey/30 transition-colors"
-        >
-            First
-        </a>
-        <a
-            href="?page={{ page_obj.paginator.num_pages }}{% if pagination_query %}&{{ pagination_query }}{% endif %}"
-            class="hidden sm:inline-block px-3 py-2 text-sm border border-light-grey rounded-lg bg-white text-dark-grey hover:bg-light-grey/30 transition-colors"
-        >
-            Last
-        </a>
-    </div>
+ <a
+ href="?page=1{% if pagination_query %}&{{ pagination_query }}{% endif %}"
+ class="hidden sm:inline-block px-3 py-2 text-sm border border-light-grey card text-dark-grey hover:bg-light-grey/30 transition-colors"
+ >
+ First
+ </a>
+ <a
+ href="?page={{ page_obj.paginator.num_pages }}{% if pagination_query %}&{{ pagination_query }}{% endif %}"
+ class="hidden sm:inline-block px-3 py-2 text-sm border border-light-grey card text-dark-grey hover:bg-light-grey/30 transition-colors"
+ >
+ Last
+ </a>
+ </div>
 </nav>
 {% endif %}

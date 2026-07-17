@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Delete {{ borrower.full_name }} - AeroConnections Library{% endblock %}
 {% block page_title %}Delete Borrower{% endblock %}
@@ -6,39 +6,39 @@
 
 {% block content %}
 <div class="max-w-md">
-    <div class="bg-white rounded-xl border border-danger p-6">
-        <h3 class="text-lg font-semibold text-danger mb-4">Permanent Deletion</h3>
-        <p class="text-dark-grey mb-4">
-            You are about to permanently delete <strong>{{ borrower.full_name }}</strong>.
-        </p>
-        <p class="text-sm text-dark-grey mb-6">
-            Loan history and return notes will remain in the system for audit purposes.
-            This action cannot be undone.
-        </p>
+ <div class="card border border-danger p-6">
+ <h3 class="text-lg font-semibold text-danger mb-4">Permanent Deletion</h3>
+ <p class="text-dark-grey mb-4">
+ You are about to permanently delete <strong>{{ borrower.full_name }}</strong>.
+ </p>
+ <p class="text-sm text-dark-grey mb-6">
+ Loan history and return notes will remain in the system for audit purposes.
+ This action cannot be undone.
+ </p>
 
-        <form method="post">
-            {% csrf_token %}
-            <label class="block text-sm font-medium text-dark-grey mb-2" for="confirm_text">
-                Type <strong class="text-danger">DELETE</strong> to confirm:
-            </label>
-            <input
-                id="confirm_text"
-                type="text"
-                name="confirm_text"
-                placeholder="DELETE"
-                class="w-full border border-danger rounded-lg px-4 py-2 focus:outline-none focus:border-danger focus:ring-2 focus:ring-danger/20 mb-6"
-                autocomplete="off"
-            >
+ <form method="post">
+ {% csrf_token %}
+ <label class="block text-sm font-medium text-dark-grey mb-2" for="confirm_text">
+ Type <strong class="text-danger">DELETE</strong> to confirm:
+ </label>
+ <input
+ id="confirm_text"
+ type="text"
+ name="confirm_text"
+ placeholder="DELETE"
+ class="w-full border border-danger px-4 py-2 focus:outline-none focus:border-danger focus:ring-2 focus:ring-danger/20 mb-6"
+ autocomplete="off"
+ >
 
-            <div class="flex gap-4">
-                <button type="submit" class="bg-danger hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                    Delete Borrower
-                </button>
-                <a href="{% url 'borrowers:borrower_detail' borrower.pk %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 rounded-lg font-medium transition-colors">
-                    Cancel
-                </a>
-            </div>
-        </form>
-    </div>
+ <div class="d-flex gap-4">
+ <button type="submit" class="bg-danger hover:bg-red-700 text-white px-4 py-2 font-medium transition-colors">
+ Delete Borrower
+ </button>
+ <a href="{% url 'borrowers:borrower_detail' borrower.pk %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 font-medium transition-colors">
+ Cancel
+ </a>
+ </div>
+ </form>
+ </div>
 </div>
 {% endblock %}

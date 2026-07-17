@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Deactivate {{ borrower.full_name }} - AeroConnections Library{% endblock %}
 {% block page_title %}Deactivate Borrower{% endblock %}
@@ -6,24 +6,24 @@
 
 {% block content %}
 <div class="max-w-md">
-    <div class="bg-white rounded-xl border border-light-grey p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Confirm Deactivation</h3>
-        <p class="text-dark-grey mb-6">
-            Are you sure you want to deactivate <strong>{{ borrower.full_name }}</strong>?
-            They will no longer be able to borrow books.
-        </p>
-        
-        <form method="post">
-            {% csrf_token %}
-            <div class="flex gap-4">
-                <button type="submit" class="bg-danger hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                    Deactivate
-                </button>
-                <a href="{% url 'borrowers:borrower_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 rounded-lg font-medium transition-colors">
-                    Cancel
-                </a>
-            </div>
-        </form>
-    </div>
+ <div class="card border border-light-grey p-6">
+ <h3 class="text-lg font-semibold text-dark-grey mb-4">Confirm Deactivation</h3>
+ <p class="text-dark-grey mb-6">
+ Are you sure you want to deactivate <strong>{{ borrower.full_name }}</strong>?
+ They will no longer be able to borrow books.
+ </p>
+ 
+ <form method="post">
+ {% csrf_token %}
+ <div class="d-flex gap-4">
+ <button type="submit" class="bg-danger hover:bg-red-700 text-white px-4 py-2 font-medium transition-colors">
+ Deactivate
+ </button>
+ <a href="{% url 'borrowers:borrower_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 font-medium transition-colors">
+ Cancel
+ </a>
+ </div>
+ </form>
+ </div>
 </div>
 {% endblock %}

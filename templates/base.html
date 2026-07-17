@@ -1,306 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}AeroConnections Library{% endblock %}</title>
-    {% load static %}
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: { DEFAULT: '#DA291C', dark: '#B8231A', light: '#FEE2E2' },
-                        'light-grey': '#C8C9C7',
-                        'dark-grey': '#5B6770',
-                        success: { DEFAULT: '#059669', light: '#D1FAE5' },
-                        warning: { DEFAULT: '#D97706', light: '#FEF3C7' },
-                        danger: { DEFAULT: '#DA291C', light: '#FEE2E2' },
-                    }
-                }
-            }
-        }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>{% block title %}AeroConnections Library{% endblock %}</title>
+ {% load static %}
+
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 
-    {% block extra_head %}{% endblock %}
+ {% block extra_head %}{% endblock %}
 </head>
-<body class="min-h-screen">
-    <!-- Top Navigation -->
-    <header class="top-nav">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-between h-16">
-                <!-- Logo & Brand -->
-                <a href="{% url 'loans:dashboard' %}" class="flex items-center gap-4 hover:opacity-80 transition-opacity">
-                    <img src="{{ branding.logo_url }}" alt="{{ branding.company_name }}" class="h-10 w-auto" onerror="this.style.display='none'">
-                    {% if branding.show_company_name or branding.show_library_name %}
-                    <div>
-                        {% if branding.show_company_name %}
-                        <h1 class="font-bold text-dark-grey text-lg leading-tight">{{ branding.company_name|default:"AeroConnections" }}</h1>
-                        {% endif %}
-                        {% if branding.show_library_name %}
-                        <p class="text-xs text-gray-500">{{ branding.library_name|default:"Library Management" }}</p>
-                        {% endif %}
-                    </div>
-                    {% endif %}
-                </a>
-                
-                <!-- Navigation Links -->
-                <nav class="hidden md:flex items-center gap-2">
-                    <a href="{% url 'books:book_list' %}" class="nav-link {% if request.resolver_match.app_name == 'books' and request.resolver_match.url_name == 'book_list' %}active{% endif %}">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                        </svg>
-                        Books
-                    </a>
-                    
-                    <a href="{% url 'loans:loan_list' %}" class="nav-link {% if request.resolver_match.app_name == 'loans' and request.resolver_match.url_name == 'loan_list' %}active{% endif %}">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                        </svg>
-                        Loans
-                    </a>
-                    
-                    <a href="{% url 'borrowers:borrower_list' %}" class="nav-link {% if request.resolver_match.app_name == 'borrowers' %}active{% endif %}">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                        Borrowers
-                    </a>
-                    
-                    <a href="{% url 'loans:return_notes' %}" class="nav-link {% if request.resolver_match.url_name == 'return_notes' %}active{% endif %}">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
-                        Returns
-                    </a>
-                    
-                    <a href="{% url 'loans:activity_log' %}" class="nav-link {% if request.resolver_match.url_name == 'activity_log' %}active{% endif %}">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        Activity
-                    </a>
-                    
-                    {% if user.is_superuser %}
-                    <a href="{% url 'notifications:settings' %}" class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                        Settings
-                    </a>
-                    {% endif %}
-                </nav>
-                
-                <!-- User Menu -->
-                <div class="user-menu flex items-center gap-4">
-                    <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
-                        <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-semibold text-sm">
-                            {{ user.username|slice:":1"|upper }}
-                        </div>
-                        <div class="hidden sm:block">
-                            <p class="text-sm font-medium text-dark-grey">{{ user.username }}</p>
-                        </div>
-                        <form action="{% url 'account_logout' %}" method="post" class="inline">
-                            {% csrf_token %}
-                            <button type="submit" class="text-gray-400 hover:text-danger transition-colors" title="Sign Out">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    
-    <!-- Main Content -->
-    <main>
-        <div class="max-w-7xl mx-auto px-6 py-8">
-            <!-- Page Header -->
-            <div class="mb-8">
-                <h1 class="text-2xl font-bold text-white">{% block page_title %}Dashboard{% endblock %}</h1>
-                <p class="text-white/60 mt-1">{% block page_subtitle %}{% endblock %}</p>
-            </div>
-            
-            <!-- Messages -->
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="mb-6 p-4 rounded-xl bg-white/95 text-dark-grey border border-light-grey/50 backdrop-blur-sm">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            
-            {% block content %}{% endblock %}
-            
-            {% include "includes/footer.html" %}
-        </div>
-    </main>
-    
-    <!-- Floating Action Button -->
-    <div class="fab-container">
-        <div class="fab-menu" id="fabMenu">
-            <a href="{% url 'loans:loan_create' %}" class="fab-item">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                </svg>
-                New Loan
-            </a>
-            <a href="{% url 'books:book_create' %}" class="fab-item">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                </svg>
-                Add Book
-            </a>
-            <a href="{% url 'borrowers:borrower_create' %}" class="fab-item">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
-                </svg>
-                Add Borrower
-            </a>
-        </div>
-        <button class="fab" onclick="toggleFabMenu()" aria-label="Quick Actions">
-            <svg class="w-6 h-6 transition-transform" id="fabIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-        </button>
-    </div>
+<body class="bg-light">
+ <!-- Top Navigation -->
+ <header class="top-nav">
+ <div class="container">
+ <div class="top-nav-inner">
+ <!-- Logo & Brand -->
+ <a href="{% url 'loans:dashboard' %}" class="d-d-flex align-align-items-center gap-4">
+ <img src="{{ branding.logo_url }}" alt="{{ branding.company_name }}" class="h-10 w-auto" onerror="this.style.display='none'">
+ {% if branding.show_company_name or branding.show_library_name %}
+ <div>
+ {% if branding.show_company_name %}
+ <h1 class="font-bold text-dark-grey text-lg leading-tight">{{ branding.company_name|default:"AeroConnections" }}</h1>
+ {% endif %}
+ {% if branding.show_library_name %}
+ <p class="text-xs text-muted">{{ branding.library_name|default:"Library Management" }}</p>
+ {% endif %}
+ </div>
+ {% endif %}
+ </a>
+ 
+ <!-- Navigation Links -->
+ <nav class="d-d-flex align-align-items-center gap-2">
+ <a href="{% url 'books:book_list' %}" class="nav-link {% if request.resolver_match.app_name == 'books' and request.resolver_match.url_name == 'book_list' %}active{% endif %}">
+ <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+ </svg>
+ Books
+ </a>
+ 
+ <a href="{% url 'loans:loan_list' %}" class="nav-link {% if request.resolver_match.app_name == 'loans' and request.resolver_match.url_name == 'loan_list' %}active{% endif %}">
+ <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+ </svg>
+ Loans
+ </a>
+ 
+ <a href="{% url 'borrowers:borrower_list' %}" class="nav-link {% if request.resolver_match.app_name == 'borrowers' %}active{% endif %}">
+ <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+ </svg>
+ Borrowers
+ </a>
+ 
+ <a href="{% url 'loans:return_notes' %}" class="nav-link {% if request.resolver_match.url_name == 'return_notes' %}active{% endif %}">
+ <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+ </svg>
+ Returns
+ </a>
+ 
+ <a href="{% url 'loans:activity_log' %}" class="nav-link {% if request.resolver_match.url_name == 'activity_log' %}active{% endif %}">
+ <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+ </svg>
+ Activity
+ </a>
+ 
+ {% if user.is_superuser %}
+ <a href="{% url 'notifications:settings' %}" class="nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+ <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+ </svg>
+ Settings
+ </a>
+ {% endif %}
+ </nav>
+ 
+ <!-- User Menu -->
+ <div class="user-menu d-d-flex align-align-items-center gap-4">
+ <div class="d-d-flex align-align-items-center gap-3 pl-4">
+ <div class="w-9 h-9 rounded-circle bg-primary d-d-flex align-align-items-center justify-content-center text-white font-semibold text-sm" style="width: 36px; height: 36px;">
+ {{ user.username|slice:":1"|upper }}
+ </div>
+ <div>
+ <p class="text-sm font-medium text-dark-grey">{{ user.username }}</p>
+ </div>
+ <form action="{% url 'account_logout' %}" method="post" class="inline">
+ {% csrf_token %}
+ <button type="submit" class="text-muted hover:text-danger transition-colors" title="Sign Out">
+ <svg class="" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+ </svg>
+ </button>
+ </form>
+ </div>
+ </div>
+ </div>
+ </div>
+ </header>
+ 
+ <!-- Main Content -->
+ <main>
+ <div class="container py-8">
+ <!-- Page Header -->
+ <div class="mb-8">
+ <h1 class="text-2xl font-bold text-white">{% block page_title %}Dashboard{% endblock %}</h1>
+ <p class="text-white/60 mt-1">{% block page_subtitle %}{% endblock %}</p>
+ </div>
+ 
+ <!-- Messages -->
+ {% if messages %}
+ {% for message in messages %}
+ <div class="mb-6 p-4 card text-dark-grey border-light-grey">
+ {{ message }}
+ </div>
+ {% endfor %}
+ {% endif %}
+ 
+ {% block content %}{% endblock %}
+ 
+ {% include"includes/footer.html" %}
+ </div>
+ </main>
+ 
+ <!-- Floating Action Button -->
+ <div class="fab-container">
+ <div class="fab-menu" id="fabMenu">
+ <a href="{% url 'loans:loan_create' %}" class="fab-item">
+ <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+ </svg>
+ New Loan
+ </a>
+ <a href="{% url 'books:book_create' %}" class="fab-item">
+ <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+ </svg>
+ Add Book
+ </a>
+ <a href="{% url 'borrowers:borrower_create' %}" class="fab-item">
+ <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+ </svg>
+ Add Borrower
+ </a>
+ </div>
+ <button class="fab" onclick="toggleFabMenu()" aria-label="Quick Actions">
+ <svg class="w-6 h-6 transition-transform" id="fabIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+ </svg>
+ </button>
+ </div>
 
-    <div id="sessionWarning" class="session-warning-backdrop" role="dialog" aria-modal="true" aria-labelledby="sessionWarningTitle">
-        <div class="session-warning-card">
-            <h3 id="sessionWarningTitle" class="text-lg font-semibold text-dark-grey mb-2">Session expiring soon</h3>
-            <p class="text-sm text-gray-600 mb-4">
-                You will be logged out in <span id="sessionWarningCountdown" class="font-semibold text-danger">60</span> seconds due to inactivity.
-            </p>
-            <div class="flex items-center gap-3">
-                <button id="staySignedInBtn" type="button" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                    Stay signed in
-                </button>
-                <button id="logoutNowBtn" type="button" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 rounded-lg font-medium transition-colors">
-                    Log out now
-                </button>
-            </div>
-        </div>
-    </div>
+ <div id="sessionWarning" class="session-warning-backdrop" role="dialog" aria-modal="true" aria-labelledby="sessionWarningTitle">
+ <div class="session-warning-card">
+ <h3 id="sessionWarningTitle" class="text-lg font-semibold text-dark-grey mb-2">Session expiring soon</h3>
+ <p class="text-sm text-muted mb-4">
+ You will be logged out in <span id="sessionWarningCountdown" class="font-semibold text-danger">60</span> seconds due to inactivity.
+ </p>
+ <div class="d-flex align-items-center gap-3">
+ <button id="staySignedInBtn" type="button" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 font-medium transition-colors">
+ Stay signed in
+ </button>
+ <button id="logoutNowBtn" type="button" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 font-medium transition-colors">
+ Log out now
+ </button>
+ </div>
+ </div>
+ </div>
 
-    <form id="autoLogoutForm" action="{% url 'account_logout' %}" method="post" class="hidden">
-        {% csrf_token %}
-    </form>
-    
-    <script>
-        function toggleFabMenu() {
-            document.getElementById('fabMenu').classList.toggle('open');
-            const icon = document.getElementById('fabIcon');
-            if (document.getElementById('fabMenu').classList.contains('open')) {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
-            } else {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>';
-            }
-        }
-        
-        document.addEventListener('click', function(e) {
-            const fabContainer = document.querySelector('.fab-container');
-            if (!fabContainer.contains(e.target)) {
-                document.getElementById('fabMenu').classList.remove('open');
-                document.getElementById('fabIcon').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>';
-            }
-        });
+ <form id="autoLogoutForm" action="{% url 'account_logout' %}" method="post" class="hidden">
+ {% csrf_token %}
+ </form>
+ 
+ <script>
+ function toggleFabMenu() {
+ document.getElementById('fabMenu').classList.toggle('open');
+ const icon = document.getElementById('fabIcon');
+ if (document.getElementById('fabMenu').classList.contains('open')) {
+ icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+ } else {
+ icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>';
+ }
+ }
+ 
+ document.addEventListener('click', function(e) {
+ const fabContainer = document.querySelector('.fab-container');
+ if (!fabContainer.contains(e.target)) {
+ document.getElementById('fabMenu').classList.remove('open');
+ document.getElementById('fabIcon').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>';
+ }
+ });
 
-        const autoLogoutEnabled = {{ AUTO_LOGOUT_ENABLED|yesno:"true,false" }};
-        const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
+ const autoLogoutEnabled = {{ AUTO_LOGOUT_ENABLED|yesno:"true,false" }};
+ const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
 
-        if (autoLogoutEnabled && isAuthenticated) {
-            const idleLimitSeconds = {{ AUTO_LOGOUT_IDLE_SECONDS|default:600 }};
-            const warningSeconds = {{ AUTO_LOGOUT_WARNING_SECONDS|default:60 }};
-            const warningStart = Math.max(1, idleLimitSeconds - warningSeconds);
+ if (autoLogoutEnabled && isAuthenticated) {
+ const idleLimitSeconds = {{ AUTO_LOGOUT_IDLE_SECONDS|default:600 }};
+ const warningSeconds = {{ AUTO_LOGOUT_WARNING_SECONDS|default:60 }};
+ const warningStart = Math.max(1, idleLimitSeconds - warningSeconds);
 
-            const warningModal = document.getElementById('sessionWarning');
-            const countdownEl = document.getElementById('sessionWarningCountdown');
-            const stayBtn = document.getElementById('staySignedInBtn');
-            const logoutBtn = document.getElementById('logoutNowBtn');
-            const logoutForm = document.getElementById('autoLogoutForm');
+ const warningModal = document.getElementById('sessionWarning');
+ const countdownEl = document.getElementById('sessionWarningCountdown');
+ const stayBtn = document.getElementById('staySignedInBtn');
+ const logoutBtn = document.getElementById('logoutNowBtn');
+ const logoutForm = document.getElementById('autoLogoutForm');
 
-            let idleSeconds = 0;
-            let warningVisible = false;
+ let idleSeconds = 0;
+ let warningVisible = false;
 
-            function getCsrfToken() {
-                const tokenCookie = document.cookie
-                    .split('; ')
-                    .find((row) => row.startsWith('csrftoken='));
-                return tokenCookie ? tokenCookie.split('=')[1] : '';
-            }
+ function getCsrfToken() {
+ const tokenCookie = document.cookie
+ .split('; ')
+ .find((row) => row.startsWith('csrftoken='));
+ return tokenCookie ? tokenCookie.split('=')[1] : '';
+ }
 
-            function showWarning() {
-                if (warningVisible) return;
-                warningVisible = true;
-                warningModal.classList.add('show');
-            }
+ function showWarning() {
+ if (warningVisible) return;
+ warningVisible = true;
+ warningModal.classList.add('show');
+ }
 
-            function hideWarning() {
-                warningVisible = false;
-                warningModal.classList.remove('show');
-            }
+ function hideWarning() {
+ warningVisible = false;
+ warningModal.classList.remove('show');
+ }
 
-            function resetIdleTimer() {
-                idleSeconds = 0;
-                if (warningVisible) hideWarning();
-            }
+ function resetIdleTimer() {
+ idleSeconds = 0;
+ if (warningVisible) hideWarning();
+ }
 
-            function triggerLogout() {
-                logoutForm.submit();
-            }
+ function triggerLogout() {
+ logoutForm.submit();
+ }
 
-            async function keepSessionAlive() {
-                try {
-                    const response = await fetch('{% url "notifications:session_ping" %}', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': getCsrfToken(),
-                            'X-Requested-With': 'XMLHttpRequest',
-                        },
-                    });
+ async function keepSessionAlive() {
+ try {
+ const response = await fetch('{% url"notifications:session_ping" %}', {
+ method: 'POST',
+ headers: {
+ 'X-CSRFToken': getCsrfToken(),
+ 'X-Requested-With': 'XMLHttpRequest',
+ },
+ });
 
-                    if (response.ok) {
-                        resetIdleTimer();
-                        return;
-                    }
-                } catch (error) {
-                    // Fall through to logout
-                }
-                triggerLogout();
-            }
+ if (response.ok) {
+ resetIdleTimer();
+ return;
+ }
+ } catch (error) {
+ // Fall through to logout
+ }
+ triggerLogout();
+ }
 
-            const activityEvents = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
-            activityEvents.forEach((eventName) => {
-                window.addEventListener(eventName, resetIdleTimer, { passive: true });
-            });
+ const activityEvents = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+ activityEvents.forEach((eventName) => {
+ window.addEventListener(eventName, resetIdleTimer, { passive: true });
+ });
 
-            stayBtn.addEventListener('click', keepSessionAlive);
-            logoutBtn.addEventListener('click', triggerLogout);
+ stayBtn.addEventListener('click', keepSessionAlive);
+ logoutBtn.addEventListener('click', triggerLogout);
 
-            setInterval(() => {
-                idleSeconds += 1;
-                const remaining = Math.max(0, idleLimitSeconds - idleSeconds);
+ setInterval(() => {
+ idleSeconds += 1;
+ const remaining = Math.max(0, idleLimitSeconds - idleSeconds);
 
-                if (idleSeconds >= warningStart) {
-                    showWarning();
-                    countdownEl.textContent = remaining;
-                }
+ if (idleSeconds >= warningStart) {
+ showWarning();
+ countdownEl.textContent = remaining;
+ }
 
-                if (idleSeconds >= idleLimitSeconds) {
-                    triggerLogout();
-                }
-            }, 1000);
-        }
-    </script>
-    {% block extra_scripts %}{% endblock %}
+ if (idleSeconds >= idleLimitSeconds) {
+ triggerLogout();
+ }
+ }, 1000);
+ }
+ </script>
+ {% block extra_scripts %}{% endblock %}
 </body>
 </html>

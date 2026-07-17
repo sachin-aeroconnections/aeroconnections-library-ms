@@ -1,183 +1,183 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}{{ borrower.full_name }} - AeroConnections Library{% endblock %}
 {% block page_title %}{{ borrower.full_name }}{% endblock %}
 {% block page_subtitle %}Borrower details{% endblock %}
 
 {% block header_actions %}
-<div class="flex gap-4">
-    <a href="{% url 'borrowers:borrower_edit' borrower.pk %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-        Edit
-    </a>
+<div class="d-flex gap-4">
+ <a href="{% url 'borrowers:borrower_edit' borrower.pk %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 text-sm font-medium transition-colors">
+ Edit
+ </a>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="space-y-6">
-    <div class="max-w-2xl">
-        <div class="bg-white rounded-xl border border-light-grey p-6">
-            <div class="flex items-start justify-between mb-6 pb-6 border-b border-light-grey">
-                <div>
-                    <span class="text-xs font-medium text-dark-grey uppercase tracking-wider">Borrower</span>
-                    <h2 class="text-2xl font-bold text-gray-900 mt-1">{{ borrower.full_name }}</h2>
-                </div>
-                <span class="px-3 py-1 text-sm font-medium rounded-full 
-                    {% if borrower.employment_type == 'permanent' %}bg-success-light text-success
-                    {% elif borrower.employment_type == 'intern' %}bg-warning-light text-warning
-                    {% else %}bg-light-grey text-dark-grey{% endif %}">
-                    {{ borrower.get_employment_type_display }}
-                </span>
-            </div>
-            
-            <div class="grid grid-cols-2 gap-6 mb-6">
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Email</p>
-                    <p class="font-medium text-gray-900">{{ borrower.email }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Phone</p>
-                    <p class="font-medium text-gray-900">{{ borrower.phone }}</p>
-                </div>
-            </div>
-            
-            {% if borrower.needs_guardian %}
-            <div class="bg-light-grey/30 rounded-lg p-4 mb-6">
-                <h3 class="text-sm font-semibold text-dark-grey mb-3">Guardian Information</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-xs text-dark-grey uppercase tracking-wider">Name</p>
-                        <p class="font-medium text-gray-900">{{ borrower.guardian_name|default:"-" }}</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-dark-grey uppercase tracking-wider">Contact</p>
-                        <p class="font-medium text-gray-900">{{ borrower.guardian_contact|default:"-" }}</p>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            
-            <div class="grid grid-cols-2 gap-6 mb-6">
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Status</p>
-                    <p class="font-medium {% if borrower.is_active %}text-success{% else %}text-danger{% endif %}">
-                        {{ borrower.is_active|yesno:"Active,Inactive" }}
-                    </p>
-                </div>
-                <div>
-                    <p class="text-xs text-dark-grey uppercase tracking-wider">Added On</p>
-                    <p class="font-medium text-gray-900">{{ borrower.created_at|date:"M d, Y" }}</p>
-                </div>
-            </div>
-            
-            <div class="flex gap-4">
-                <a href="{% url 'borrowers:borrower_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 rounded-lg font-medium transition-colors">
-                    Back to List
-                </a>
-                {% if user.is_superuser %}
-                <a href="{% url 'borrowers:borrower_delete' borrower.pk %}" class="bg-danger hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                    Delete Borrower
-                </a>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    
-    <div>
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Loan History</h3>
-        {% if loans %}
-        <div class="bg-white rounded-xl border border-light-grey overflow-hidden">
-            <table class="min-w-full divide-y divide-light-grey">
-                <thead class="bg-light-grey/30">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Book</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Checkout</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Returned</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Duration</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey uppercase tracking-wider">Status</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-light-grey">
-                    {% for loan in loans %}
-                    <tr class="{% if loan.is_overdue %}bg-danger-light{% elif loan.is_due_soon %}bg-warning-light{% endif %}">
-                        <td class="px-6 py-4">
-                            <div class="font-medium text-gray-900">{{ loan.copy_id_snapshot }}</div>
-                            <div class="text-sm text-dark-grey">{{ loan.book_title_snapshot }}</div>
-                        </td>
-                        <td class="px-6 py-4 text-dark-grey">{{ loan.checkout_date|date:"M d, Y" }}</td>
-                        <td class="px-6 py-4 text-dark-grey">{{ loan.return_date|date:"M d, Y"|default:"-" }}</td>
-                        <td class="px-6 py-4 text-dark-grey">{{ loan.days_out }} days</td>
-                        <td class="px-6 py-4">
-                            <span class="px-3 py-1 text-xs font-medium rounded-full 
-                                {% if loan.status == 'returned' %}bg-success-light text-success
-                                {% elif loan.is_overdue %}bg-danger-light text-danger
-                                {% elif loan.is_due_soon %}bg-warning-light text-warning
-                                {% else %}bg-light-grey text-dark-grey{% endif %}">
-                                {{ loan.status_display }}
-                            </span>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% else %}
-        <div class="bg-white rounded-xl border border-light-grey p-8 text-center">
-            <p class="text-dark-grey">No loan history for this borrower.</p>
-        </div>
-        {% endif %}
-    </div>
-    
-    <div>
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Return Notes</h3>
-        {% if return_notes %}
-        <div class="space-y-4">
-                    {% for note in return_notes %}
-                    <div class="bg-white rounded-xl border border-light-grey p-4">
-                        <div class="flex items-start justify-between mb-2">
-                            <div>
-                                <p class="font-medium text-gray-900">{{ note.book_copy.copy_id }} - {{ note.book_copy.book.title }}</p>
-                                <p class="text-sm text-dark-grey">{{ note.created_at|date:"M d, Y H:i" }}</p>
-                            </div>
-                            {% if note.image %}
-                            <span class="px-2 py-1 bg-danger/10 text-danger text-xs font-medium rounded-full">Photo</span>
-                            {% endif %}
-                        </div>
-                {% if note.note %}
-                <p class="text-gray-700 mb-3">{{ note.note }}</p>
-                {% endif %}
-                {% if note.image %}
-                <img src="{{ note.image.url }}" alt="Return photo" class="max-w-xs rounded-lg border border-light-grey cursor-pointer hover:opacity-90" onclick="openLightbox('{{ note.image.url|escapejs }}')">
-                {% endif %}
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="bg-white rounded-xl border border-light-grey p-8 text-center">
-            <p class="text-dark-grey">No return notes for this borrower.</p>
-        </div>
-        {% endif %}
-    </div>
+ <div class="max-w-2xl">
+ <div class="card border border-light-grey p-6">
+ <div class="d-flex items-start justify-content-between mb-6 pb-6 border-b border-light-grey">
+ <div>
+ <span class="text-xs font-medium text-dark-grey">Borrower</span>
+ <h2 class="text-2xl font-bold text-dark-grey mt-1">{{ borrower.full_name }}</h2>
+ </div>
+ <span class="px-3 py-1 text-sm font-medium rounded-full 
+ {% if borrower.employment_type == 'permanent' %}bg-success-light text-success
+ {% elif borrower.employment_type == 'intern' %}bg-warning-light text-warning
+ {% else %}bg-light-grey text-dark-grey{% endif %}">
+ {{ borrower.get_employment_type_display }}
+ </span>
+ </div>
+ 
+ <div class="grid grid-cols-2 gap-6 mb-6">
+ <div>
+ <p class="text-xs text-dark-grey">Email</p>
+ <p class="font-medium text-dark-grey">{{ borrower.email }}</p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Phone</p>
+ <p class="font-medium text-dark-grey">{{ borrower.phone }}</p>
+ </div>
+ </div>
+ 
+ {% if borrower.needs_guardian %}
+ <div class="bg-light-grey/30 p-4 mb-6">
+ <h3 class="text-sm font-semibold text-dark-grey mb-3">Guardian Information</h3>
+ <div class="grid grid-cols-2 gap-4">
+ <div>
+ <p class="text-xs text-dark-grey">Name</p>
+ <p class="font-medium text-dark-grey">{{ borrower.guardian_name|default:"-" }}</p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Contact</p>
+ <p class="font-medium text-dark-grey">{{ borrower.guardian_contact|default:"-" }}</p>
+ </div>
+ </div>
+ </div>
+ {% endif %}
+ 
+ <div class="grid grid-cols-2 gap-6 mb-6">
+ <div>
+ <p class="text-xs text-dark-grey">Status</p>
+ <p class="font-medium {% if borrower.is_active %}text-success{% else %}text-danger{% endif %}">
+ {{ borrower.is_active|yesno:"Active,Inactive" }}
+ </p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Added On</p>
+ <p class="font-medium text-dark-grey">{{ borrower.created_at|date:"M d, Y" }}</p>
+ </div>
+ </div>
+ 
+ <div class="d-flex gap-4">
+ <a href="{% url 'borrowers:borrower_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 font-medium transition-colors">
+ Back to List
+ </a>
+ {% if user.is_superuser %}
+ <a href="{% url 'borrowers:borrower_delete' borrower.pk %}" class="bg-danger hover:bg-red-700 text-white px-4 py-2 font-medium transition-colors">
+ Delete Borrower
+ </a>
+ {% endif %}
+ </div>
+ </div>
+ </div>
+ 
+ <div>
+ <h3 class="text-lg font-semibold text-dark-grey mb-4">Loan History</h3>
+ {% if loans %}
+ <div class="card border border-light-grey">
+ <table class="w-100 divide-light-grey">
+ <thead class="bg-light-grey/30">
+ <tr>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Book</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Checkout</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Returned</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Duration</th>
+ <th class="px-6 py-3 text-left text-xs font-medium text-dark-grey">Status</th>
+ </tr>
+ </thead>
+ <tbody class="card divide-light-grey">
+ {% for loan in loans %}
+ <tr class="{% if loan.is_overdue %}bg-danger-light{% elif loan.is_due_soon %}bg-warning-light{% endif %}">
+ <td class="px-6 py-4">
+ <div class="font-medium text-dark-grey">{{ loan.copy_id_snapshot }}</div>
+ <div class="text-sm text-dark-grey">{{ loan.book_title_snapshot }}</div>
+ </td>
+ <td class="px-6 py-4 text-dark-grey">{{ loan.checkout_date|date:"M d, Y" }}</td>
+ <td class="px-6 py-4 text-dark-grey">{{ loan.return_date|date:"M d, Y"|default:"-" }}</td>
+ <td class="px-6 py-4 text-dark-grey">{{ loan.days_out }} days</td>
+ <td class="px-6 py-4">
+ <span class="px-3 py-1 text-xs font-medium rounded-full 
+ {% if loan.status == 'returned' %}bg-success-light text-success
+ {% elif loan.is_overdue %}bg-danger-light text-danger
+ {% elif loan.is_due_soon %}bg-warning-light text-warning
+ {% else %}bg-light-grey text-dark-grey{% endif %}">
+ {{ loan.status_display }}
+ </span>
+ </td>
+ </tr>
+ {% endfor %}
+ </tbody>
+ </table>
+ </div>
+ {% else %}
+ <div class="card border border-light-grey p-8 text-center">
+ <p class="text-dark-grey">No loan history for this borrower.</p>
+ </div>
+ {% endif %}
+ </div>
+ 
+ <div>
+ <h3 class="text-lg font-semibold text-dark-grey mb-4">Return Notes</h3>
+ {% if return_notes %}
+ <div class="space-y-4">
+ {% for note in return_notes %}
+ <div class="card border border-light-grey p-4">
+ <div class="d-flex items-start justify-content-between mb-2">
+ <div>
+ <p class="font-medium text-dark-grey">{{ note.book_copy.copy_id }} - {{ note.book_copy.book.title }}</p>
+ <p class="text-sm text-dark-grey">{{ note.created_at|date:"M d, Y H:i" }}</p>
+ </div>
+ {% if note.image %}
+ <span class="px-2 py-1 bg-danger/10 text-danger text-xs font-medium rounded-full">Photo</span>
+ {% endif %}
+ </div>
+ {% if note.note %}
+ <p class="text-dark-grey mb-3">{{ note.note }}</p>
+ {% endif %}
+ {% if note.image %}
+ <img src="{{ note.image.url }}" alt="Return photo" class="max-w-xs border border-light-grey cursor-pointer hover:opacity-90" onclick="openLightbox('{{ note.image.url|escapejs }}')">
+ {% endif %}
+ </div>
+ {% endfor %}
+ </div>
+ {% else %}
+ <div class="card border border-light-grey p-8 text-center">
+ <p class="text-dark-grey">No return notes for this borrower.</p>
+ </div>
+ {% endif %}
+ </div>
 </div>
 
-<div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
-    <button class="absolute top-4 right-4 text-white hover:text-danger transition-colors">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-    </button>
-    <img id="lightboxImage" src="" alt="Full size" class="max-w-full max-h-[90vh] rounded-lg">
+<div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden align-items-center justify-content-center p-4 cursor-pointer" onclick="closeLightbox()">
+ <button class="absolute top-4 right-4 text-white hover:text-danger transition-colors">
+ <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+ </svg>
+ </button>
+ <img id="lightboxImage" src="" alt="Full size" class="max-w-full max-h-[90vh]">
 </div>
 
 <script>
 function openLightbox(url) {
-    event.stopPropagation();
-    document.getElementById('lightboxImage').src = url;
-    document.getElementById('lightbox').classList.remove('hidden');
-    document.getElementById('lightbox').classList.add('flex');
+ event.stopPropagation();
+ document.getElementById('lightboxImage').src = url;
+ document.getElementById('lightbox').classList.remove('hidden');
+ document.getElementById('lightbox').classList.add('d-flex');
 }
 function closeLightbox() {
-    document.getElementById('lightbox').classList.add('hidden');
-    document.getElementById('lightbox').classList.remove('flex');
+ document.getElementById('lightbox').classList.add('hidden');
+ document.getElementById('lightbox').classList.remove('d-flex');
 }
 </script>
 {% endblock %}

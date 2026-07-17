@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Loan Details - AeroConnections Library{% endblock %}
 {% block page_title %}Loan Details{% endblock %}
@@ -6,84 +6,84 @@
 
 {% block content %}
 <div class="max-w-2xl">
-    <div class="bg-white rounded-xl border border-light-grey p-6 mb-6">
-        <div class="flex items-start justify-between mb-6 pb-6 border-b border-light-grey">
-            <div>
-                <span class="text-xs font-medium text-dark-grey uppercase tracking-wider">Book ID</span>
-                <h2 class="text-2xl font-bold text-gray-900 mt-1">#{{ loan.book_id_snapshot }}</h2>
-            </div>
-            <span class="px-3 py-1 text-sm font-medium rounded-full 
-                {% if loan.status == 'returned' %}bg-success-light text-success
-                {% elif loan.is_overdue %}bg-danger-light text-danger
-                {% elif loan.is_due_soon %}bg-warning-light text-warning
-                {% else %}bg-light-grey text-dark-grey{% endif %}">
-                {{ loan.status_display }}
-            </span>
-        </div>
-        
-        <div class="grid grid-cols-2 gap-6 mb-6">
-            <div>
-                <p class="text-xs text-dark-grey uppercase tracking-wider">Book Title</p>
-                <p class="font-medium text-gray-900">{{ loan.book_copy.book.title }}</p>
-                <p class="text-sm text-dark-grey">{{ loan.book_copy.book.author }}</p>
-            </div>
-            <div>
-                <p class="text-xs text-dark-grey uppercase tracking-wider">Borrower</p>
-                <p class="font-medium text-gray-900">{{ loan.borrower_name }}</p>
-            </div>
-            <div>
-                <p class="text-xs text-dark-grey uppercase tracking-wider">Checkout Date</p>
-                <p class="font-medium text-gray-900">{{ loan.checkout_date|date:"M d, Y" }}</p>
-            </div>
-            <div>
-                <p class="text-xs text-dark-grey uppercase tracking-wider">Due Date</p>
-                <p class="font-medium {% if loan.is_overdue %}text-danger font-bold{% elif loan.is_due_soon %}text-warning font-medium{% endif %}">
-                    {{ loan.due_date|date:"M d, Y" }}
-                </p>
-            </div>
-            <div>
-                <p class="text-xs text-dark-grey uppercase tracking-wider">Days Out</p>
-                <p class="font-bold text-lg {% if loan.is_overdue %}text-danger{% elif loan.is_due_soon %}text-warning{% endif %}">
-                    {{ loan.days_out }} days
-                </p>
-            </div>
-            {% if loan.return_date %}
-            <div>
-                <p class="text-xs text-dark-grey uppercase tracking-wider">Return Date</p>
-                <p class="font-medium text-gray-900">{{ loan.return_date|date:"M d, Y" }}</p>
-            </div>
-            {% endif %}
-        </div>
-        
-        {% if loan.notes %}
-        <div class="bg-light-grey/30 rounded-lg p-4 mb-6">
-            <p class="text-xs text-dark-grey uppercase tracking-wider mb-2">Return Notes</p>
-            <p class="text-gray-900">{{ loan.notes }}</p>
-        </div>
-        {% endif %}
-        
-        {% if loan.damage_image %}
-        <div class="mb-6">
-            <p class="text-xs text-dark-grey uppercase tracking-wider mb-2">Damage Photo</p>
-            <img src="{{ loan.damage_image.url }}" alt="Damage photo" class="max-w-md rounded-lg border border-light-grey">
-        </div>
-        {% endif %}
-        
-        <div class="flex gap-4">
-            {% if loan.status != 'returned' %}
-            <a href="{% url 'loans:loan_return' loan.pk %}" class="bg-success hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                Return Book
-            </a>
-            {% endif %}
-            {% if loan.status == 'returned' and user.is_superuser %}
-            <a href="{% url 'loans:loan_delete' loan.pk %}" class="bg-danger hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                Delete Record
-            </a>
-            {% endif %}
-            <a href="{% url 'loans:loan_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 rounded-lg font-medium transition-colors">
-                Back to List
-            </a>
-        </div>
-    </div>
+ <div class="card border border-light-grey p-6 mb-6">
+ <div class="d-flex items-start justify-content-between mb-6 pb-6 border-b border-light-grey">
+ <div>
+ <span class="text-xs font-medium text-dark-grey">Book ID</span>
+ <h2 class="text-2xl font-bold text-dark-grey mt-1">#{{ loan.book_id_snapshot }}</h2>
+ </div>
+ <span class="px-3 py-1 text-sm font-medium rounded-full 
+ {% if loan.status == 'returned' %}bg-success-light text-success
+ {% elif loan.is_overdue %}bg-danger-light text-danger
+ {% elif loan.is_due_soon %}bg-warning-light text-warning
+ {% else %}bg-light-grey text-dark-grey{% endif %}">
+ {{ loan.status_display }}
+ </span>
+ </div>
+ 
+ <div class="grid grid-cols-2 gap-6 mb-6">
+ <div>
+ <p class="text-xs text-dark-grey">Book Title</p>
+ <p class="font-medium text-dark-grey">{{ loan.book_copy.book.title }}</p>
+ <p class="text-sm text-dark-grey">{{ loan.book_copy.book.author }}</p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Borrower</p>
+ <p class="font-medium text-dark-grey">{{ loan.borrower_name }}</p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Checkout Date</p>
+ <p class="font-medium text-dark-grey">{{ loan.checkout_date|date:"M d, Y" }}</p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Due Date</p>
+ <p class="font-medium {% if loan.is_overdue %}text-danger font-bold{% elif loan.is_due_soon %}text-warning font-medium{% endif %}">
+ {{ loan.due_date|date:"M d, Y" }}
+ </p>
+ </div>
+ <div>
+ <p class="text-xs text-dark-grey">Days Out</p>
+ <p class="font-bold text-lg {% if loan.is_overdue %}text-danger{% elif loan.is_due_soon %}text-warning{% endif %}">
+ {{ loan.days_out }} days
+ </p>
+ </div>
+ {% if loan.return_date %}
+ <div>
+ <p class="text-xs text-dark-grey">Return Date</p>
+ <p class="font-medium text-dark-grey">{{ loan.return_date|date:"M d, Y" }}</p>
+ </div>
+ {% endif %}
+ </div>
+ 
+ {% if loan.notes %}
+ <div class="bg-light-grey/30 p-4 mb-6">
+ <p class="text-xs text-dark-grey mb-2">Return Notes</p>
+ <p class="text-dark-grey">{{ loan.notes }}</p>
+ </div>
+ {% endif %}
+ 
+ {% if loan.damage_image %}
+ <div class="mb-6">
+ <p class="text-xs text-dark-grey mb-2">Damage Photo</p>
+ <img src="{{ loan.damage_image.url }}" alt="Damage photo" class="max-w-md border border-light-grey">
+ </div>
+ {% endif %}
+ 
+ <div class="d-flex gap-4">
+ {% if loan.status != 'returned' %}
+ <a href="{% url 'loans:loan_return' loan.pk %}" class="bg-success hover:bg-green-700 text-white px-4 py-2 font-medium transition-colors">
+ Return Book
+ </a>
+ {% endif %}
+ {% if loan.status == 'returned' and user.is_superuser %}
+ <a href="{% url 'loans:loan_delete' loan.pk %}" class="bg-danger hover:bg-red-700 text-white px-4 py-2 font-medium transition-colors">
+ Delete Record
+ </a>
+ {% endif %}
+ <a href="{% url 'loans:loan_list' %}" class="bg-light-grey hover:bg-gray-300 text-dark-grey px-4 py-2 font-medium transition-colors">
+ Back to List
+ </a>
+ </div>
+ </div>
 </div>
 {% endblock %}

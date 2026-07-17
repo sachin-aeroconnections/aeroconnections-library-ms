@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends"base.html" %}
 
 {% block title %}Dashboard - AeroConnections Library{% endblock %}
 {% block page_title %}Dashboard{% endblock %}
@@ -7,123 +7,123 @@
 {% block header_actions %}{% endblock %}
 
 {% block content %}
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="bg-white rounded-xl border border-light-grey p-6">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                </svg>
-            </div>
-            <div>
-                <p class="text-sm text-dark-grey">Total Books</p>
-                <p class="text-2xl font-bold text-gray-900">{{ stats.books }}</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="bg-white rounded-xl border border-light-grey p-6">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-light-grey flex items-center justify-center">
-                <svg class="w-6 h-6 text-dark-grey" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                </svg>
-            </div>
-            <div>
-                <p class="text-sm text-dark-grey">Active Loans</p>
-                <p class="text-2xl font-bold text-gray-900">{{ stats.active }}</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="bg-white rounded-xl border border-light-grey p-6">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-warning-light flex items-center justify-center">
-                <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-            </div>
-            <div>
-                <p class="text-sm text-dark-grey">Due Soon</p>
-                <p class="text-2xl font-bold text-warning">{{ stats.due_soon }}</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="bg-white rounded-xl border border-light-grey p-6">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-danger-light flex items-center justify-center">
-                <svg class="w-6 h-6 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-            </div>
-            <div>
-                <p class="text-sm text-dark-grey">Overdue</p>
-                <p class="text-2xl font-bold text-danger">{{ stats.overdue }}</p>
-            </div>
-        </div>
-    </div>
+<div class="grid grid-cols-1 grid-cols-2 grid-cols-4 gap-6 mb-8">
+ <div class="card border border-light-grey p-6">
+ <div class="d-flex align-items-center gap-4">
+ <div class="w-12 h-12 rounded-full bg-primary/10 d-flex align-items-center justify-content-center">
+ <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+ </svg>
+ </div>
+ <div>
+ <p class="text-sm text-dark-grey">Total Books</p>
+ <p class="text-2xl font-bold text-dark-grey">{{ stats.books }}</p>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="card border border-light-grey p-6">
+ <div class="d-flex align-items-center gap-4">
+ <div class="w-12 h-12 rounded-full bg-light-grey d-flex align-items-center justify-content-center">
+ <svg class="w-6 h-6 text-dark-grey" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+ </svg>
+ </div>
+ <div>
+ <p class="text-sm text-dark-grey">Active Loans</p>
+ <p class="text-2xl font-bold text-dark-grey">{{ stats.active }}</p>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="card border border-light-grey p-6">
+ <div class="d-flex align-items-center gap-4">
+ <div class="w-12 h-12 rounded-full bg-warning-light d-flex align-items-center justify-content-center">
+ <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+ </svg>
+ </div>
+ <div>
+ <p class="text-sm text-dark-grey">Due Soon</p>
+ <p class="text-2xl font-bold text-warning">{{ stats.due_soon }}</p>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="card border border-light-grey p-6">
+ <div class="d-flex align-items-center gap-4">
+ <div class="w-12 h-12 rounded-full bg-danger-light d-flex align-items-center justify-content-center">
+ <svg class="w-6 h-6 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+ </svg>
+ </div>
+ <div>
+ <p class="text-sm text-dark-grey">Overdue</p>
+ <p class="text-2xl font-bold text-danger">{{ stats.overdue }}</p>
+ </div>
+ </div>
+ </div>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <div class="bg-white rounded-xl border border-light-grey p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-        {% if recent_loans %}
-        <div class="space-y-4">
-            {% for loan in recent_loans %}
-            <div class="flex items-center justify-between py-2 border-b border-light-grey last:border-0">
-                <div>
-                    <p class="font-medium text-gray-900">{{ loan.book_copy.book.title }}</p>
-                    <p class="text-sm text-dark-grey">{{ loan.book_id_snapshot }} - {{ loan.borrower_name }} - {{ loan.checkout_date|date:"M d, Y" }}</p>
-                </div>
-                <span class="px-2 py-1 text-xs font-medium rounded-full 
-                    {% if loan.status == 'returned' %}bg-success-light text-success
-                    {% elif loan.is_overdue %}bg-danger-light text-danger
-                    {% else %}bg-light-grey text-dark-grey{% endif %}">
-                    {{ loan.status_display }}
-                </span>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <p class="text-dark-grey text-center py-8">No recent activity</p>
-        {% endif %}
-    </div>
-    
-    <div class="bg-white rounded-xl border border-light-grey p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Overdue Books</h3>
-        {% if overdue_loans %}
-        <div class="space-y-4">
-            {% for loan in overdue_loans %}
-            <div class="flex items-center justify-between py-2 border-b border-light-grey last:border-0">
-                <div>
-                    <p class="font-medium text-gray-900">{{ loan.book_copy.book.title }}</p>
-                    <p class="text-sm text-danger">{{ loan.book_copy.copy_id }} - {{ loan.borrower_name }} - {{ loan.days_out }} days</p>
-                </div>
-                <a href="{% url 'loans:loan_detail' loan.pk %}" class="text-primary hover:text-primary-dark text-sm">View</a>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <p class="text-success text-center py-8">No overdue books!</p>
-        {% endif %}
-    </div>
+ <div class="card border border-light-grey p-6">
+ <h3 class="text-lg font-semibold text-dark-grey mb-4">Recent Activity</h3>
+ {% if recent_loans %}
+ <div class="space-y-4">
+ {% for loan in recent_loans %}
+ <div class="d-flex align-items-center justify-content-between py-2 border-b border-light-grey last:border-0">
+ <div>
+ <p class="font-medium text-dark-grey">{{ loan.book_copy.book.title }}</p>
+ <p class="text-sm text-dark-grey">{{ loan.book_id_snapshot }} - {{ loan.borrower_name }} - {{ loan.checkout_date|date:"M d, Y" }}</p>
+ </div>
+ <span class="px-2 py-1 text-xs font-medium rounded-full 
+ {% if loan.status == 'returned' %}bg-success-light text-success
+ {% elif loan.is_overdue %}bg-danger-light text-danger
+ {% else %}bg-light-grey text-dark-grey{% endif %}">
+ {{ loan.status_display }}
+ </span>
+ </div>
+ {% endfor %}
+ </div>
+ {% else %}
+ <p class="text-dark-grey text-center py-8">No recent activity</p>
+ {% endif %}
+ </div>
+ 
+ <div class="card border border-light-grey p-6">
+ <h3 class="text-lg font-semibold text-dark-grey mb-4">Overdue Books</h3>
+ {% if overdue_loans %}
+ <div class="space-y-4">
+ {% for loan in overdue_loans %}
+ <div class="d-flex align-items-center justify-content-between py-2 border-b border-light-grey last:border-0">
+ <div>
+ <p class="font-medium text-dark-grey">{{ loan.book_copy.book.title }}</p>
+ <p class="text-sm text-danger">{{ loan.book_copy.copy_id }} - {{ loan.borrower_name }} - {{ loan.days_out }} days</p>
+ </div>
+ <a href="{% url 'loans:loan_detail' loan.pk %}" class="text-primary hover:text-primary-dark text-sm">View</a>
+ </div>
+ {% endfor %}
+ </div>
+ {% else %}
+ <p class="text-success text-center py-8">No overdue books!</p>
+ {% endif %}
+ </div>
 </div>
 
 {% if due_soon_loans %}
-<div class="mt-6 bg-warning-light rounded-xl border border-warning p-6">
-    <h3 class="text-lg font-semibold text-warning mb-4">Due Soon (25+ days)</h3>
-    <div class="space-y-4">
-        {% for loan in due_soon_loans %}
-            <div class="flex items-center justify-between py-2 border-b border-warning/30 last:border-0">
-                <div>
-                    <p class="font-medium text-gray-900">{{ loan.book_copy.book.title }}</p>
-                    <p class="text-sm text-dark-grey">{{ loan.book_copy.copy_id }} - {{ loan.borrower_name }} - {{ loan.days_out }} days out</p>
-                </div>
-                <a href="{% url 'loans:loan_detail' loan.pk %}" class="text-warning hover:text-yellow-700 text-sm font-medium">View</a>
-            </div>
-        {% endfor %}
-    </div>
+<div class="mt-6 bg-warning-light border border-warning p-6">
+ <h3 class="text-lg font-semibold text-warning mb-4">Due Soon (25+ days)</h3>
+ <div class="space-y-4">
+ {% for loan in due_soon_loans %}
+ <div class="d-flex align-items-center justify-content-between py-2 border-b border-warning/30 last:border-0">
+ <div>
+ <p class="font-medium text-dark-grey">{{ loan.book_copy.book.title }}</p>
+ <p class="text-sm text-dark-grey">{{ loan.book_copy.copy_id }} - {{ loan.borrower_name }} - {{ loan.days_out }} days out</p>
+ </div>
+ <a href="{% url 'loans:loan_detail' loan.pk %}" class="text-warning hover:text-yellow-700 text-sm font-medium">View</a>
+ </div>
+ {% endfor %}
+ </div>
 </div>
 {% endif %}
 {% endblock %}
