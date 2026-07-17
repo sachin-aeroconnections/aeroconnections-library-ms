@@ -24,9 +24,7 @@ def get_client_ip(request):
 def pin_matches(entered_pin, stored_pin):
     if not stored_pin:
         return False
-    if check_password(entered_pin, stored_pin):
-        return True
-    return entered_pin == stored_pin
+    return check_password(entered_pin, stored_pin)
 
 
 class SetupGateView(View):
