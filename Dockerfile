@@ -20,11 +20,10 @@ RUN apk add --no-cache \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY package*.json* ./
 COPY tailwind.config.js .
 COPY static/src/tailwind.css ./static/src/tailwind.css
-RUN npm install --save-dev tailwindcss && \
-    npx tailwindcss -i ./static/src/tailwind.css -o ./static/tailwind.min.css --minify
+RUN npm install --save-dev tailwindcss@3 && \
+    ./node_modules/.bin/tailwindcss -i ./static/src/tailwind.css -o ./static/tailwind.min.css --minify
 
 COPY . .
 RUN mkdir -p /app/data && python manage.py migrate
