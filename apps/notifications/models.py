@@ -196,9 +196,11 @@ class Branding(models.Model):
         verbose_name_plural = "Branding Settings"
 
     def save(self, *args, **kwargs):
+        from django.core.cache import cache
         if self.is_active:
             Branding.objects.filter(is_active=True).exclude(pk=self.pk).update(is_active=False)
         super().save(*args, **kwargs)
+        cache.delete("branding_context")
 
     @classmethod
     def get_active(cls):

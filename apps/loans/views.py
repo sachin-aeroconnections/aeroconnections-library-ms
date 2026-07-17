@@ -16,21 +16,21 @@ from .models import ActivityLog, Loan, ReturnNote
 
 @login_required
 def loan_list(request):
-    active_loans = (
+    active_loans_qs = (
         Loan.objects.select_related("book_copy", "book_copy__book")
         .filter(status__in=["active", "overdue"])
         .order_by("checkout_date")
     )
-    returned_loans = (
+    returned_loans_qs = (
         Loan.objects.select_related("book_copy", "book_copy__book")
         .filter(status="returned")
-        .order_by("checkout_date")
+        .order_by("-checkout_date")
     )
 
     today = timezone.now().date()
     stats = {
         "total": Loan.objects.count(),
-        "active": Loan.objects.filter(status__in=["active", "overdue"]).count(),
+        "active": active_loans_qs.count(),
         "due_soon": Loan.objects.filter(
             status="active", checkout_date__lte=today - timedelta(days=25)
         )
@@ -41,25 +41,31 @@ def loan_list(request):
         ).count(),
     }
 
-    paginator = Paginator(returned_loans, 10)
-    page_number = request.GET.get("page")
-    try:
-        returned_page = paginator.get_page(page_number)
-    except (PageNotAnInteger, EmptyPage):
-        returned_page = paginator.get_page(1)
+    # Paginate active loans
+    active_paginator = Paginator(active_loans_qs, 20)
+    active_page_number = request.GET.get("active_page")
+    active_page = active_paginator.get_page(active_page_number)
+
+    # Paginate returned loans
+    returned_paginator = Paginator(returned_loans_qs, 10)
+    returned_page_number = request.GET.get("page")
+    returned_page = returned_paginator.get_page(returned_page_number)
 
     pagination_query = request.GET.copy()
     pagination_query.pop("page", None)
+    pagination_query.pop("active_page", None)
 
     return render(
         request,
         "loans/loan_list.html",
         {
-            "active_loans": active_loans,
+            "active_loans": active_page,
             "returned_loans": returned_page,
             "stats": stats,
             "page_obj": returned_page,
-            "paginator": paginator,
+            "active_page_obj": active_page,
+            "paginator": returned_paginator,
+            "active_paginator": active_paginator,
             "pagination_query": pagination_query.urlencode(),
         },
     )
@@ -228,31 +234,37 @@ def activity_log(request):
 
 @login_required
 def dashboard(request):
+    today = timezone.now().date()
+    overdue_cutoff = today - timedelta(days=30)
+    due_soon_cutoff = today - timedelta(days=25)
+
     books_count = Book.objects.count()
     copies_count = BookCopy.objects.count()
-    active_loans = Loan.objects.filter(status__in=["active", "overdue"]).count()
-    overdue_loans = Loan.objects.filter(
-        status="active", checkout_date__lte=timezone.now().date() - timedelta(days=30)
-    ).count()
-    due_soon_loans = Loan.objects.filter(
-        status="active", checkout_date__lte=timezone.now().date() - timedelta(days=25)
-    ).exclude(checkout_date__lte=timezone.now().date() - timedelta(days=30))
+    active_loans_count = Loan.objects.filter(status__in=["active", "overdue"]).count()
 
-    recent_loans = Loan.objects.select_related("book_copy", "book_copy__book").order_by(
-        "-created_at"
-    )[:5]
-    overdue_list = (
-        Loan.objects.filter(
-            status="active", checkout_date__lte=timezone.now().date() - timedelta(days=30)
-        )
-        .select_related("book_copy", "book_copy__book")[:10]
+    # Fetch overdue list once and derive count from it
+    overdue_list = list(
+        Loan.objects.filter(status="active", checkout_date__lte=overdue_cutoff)
+        .select_related("book_copy", "book_copy__book")
+        .order_by("checkout_date")[:10]
     )
+    overdue_count = Loan.objects.filter(
+        status="active", checkout_date__lte=overdue_cutoff
+    ).count()
+
+    due_soon_loans = Loan.objects.filter(
+        status="active", checkout_date__lte=due_soon_cutoff
+    ).exclude(checkout_date__lte=overdue_cutoff)
+
+    recent_loans = Loan.objects.select_related(
+        "book_copy", "book_copy__book"
+    ).order_by("-created_at")[:5]
 
     stats = {
         "books": books_count,
         "copies": copies_count,
-        "active": active_loans,
-        "overdue": overdue_loans,
+        "active": active_loans_count,
+        "overdue": overdue_count,
         "due_soon": due_soon_loans.count(),
     }
 
